@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Exam_sch-system-WebApi.props" />
+</Project>
