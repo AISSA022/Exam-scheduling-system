@@ -1,0 +1,46 @@
+<div style="display: flex; flex-direction: column">
+  <div class="center">
+    <img
+      src="assets/images/userb.png"
+      alt="createuser"
+      width="200px"
+      height="200px"
+      style="margin-left: 250px; margin-top: 20px"
+    />
+    <div style="display: flex">
+      <div class="hr">-----------------------------------------------</div>
+      <div class="mt-2 mr-3">
+        <h1 style="font-family: Andalus; font-size: xxx-large">
+          Create New User
+        </h1>
+      </div>
+      <div class="hr">-----------------------------------------------</div>
+    </div>
+  </div>
+  <!-- //////////// ////// //////Form ////// ////// ////// //////  -->
+
+  <div class="center mt-3">
+    <!-- /////////////Name/////////// -->
+    <form action="">
+      <div>
+        <input id="shadow" class="btn mb-2 mb-md-0 btn-round btn-outline btn-block" type="text" placeholder="name" name="name" [(ngModel)]="adduserrequest.name">
+      </div>
+      <div>
+        <button
+          type="submit"
+          class=" btn mb-2 mb-md-0 btn-secondary btn-block btn-round "
+          id="fixedbtn"
+        >
+          <span>Submit</span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black"> done_outline</mat-icon>
+          </div>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- //////////////////////////// -->
+</div>
