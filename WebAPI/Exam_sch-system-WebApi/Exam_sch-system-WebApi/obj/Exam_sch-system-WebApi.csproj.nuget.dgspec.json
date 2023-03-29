@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam&Attendance-Managment-System\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj": {}
+    "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam-scheduling-system\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam&Attendance-Managment-System\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj": {
+    "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam-scheduling-system\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam&Attendance-Managment-System\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj",
+        "projectUniqueName": "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam-scheduling-system\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj",
         "projectName": "Exam_sch-system-WebApi",
-        "projectPath": "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam&Attendance-Managment-System\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj",
+        "projectPath": "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam-scheduling-system\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi.csproj",
         "packagesPath": "C:\\Users\\ALI\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam&Attendance-Managment-System\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\obj\\",
+        "outputPath": "C:\\Users\\ALI\\OneDrive\\Desktop\\C.S\\Angular\\Exam-scheduling-system\\WebAPI\\Exam_sch-system-WebApi\\Exam_sch-system-WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ALI\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Cors": {
+              "target": "Package",
+              "version": "[5.2.9, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.4, )"
@@ -88,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
