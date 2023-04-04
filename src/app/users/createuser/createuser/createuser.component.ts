@@ -13,22 +13,29 @@ import { AppServicesService } from 'src/app/Services/app-services.service';
 
 export class CreateuserComponent implements OnInit {
   adduserrequest: Usersmodel = {
-    id:0,
+    id: 0,
     name: ''
   }
-  constructor(private service: AppServicesService, private formBuilder: FormBuilder,private router:Router) { }
+  constructor(private service: AppServicesService, private formBuilder: FormBuilder, private router: Router) { }
 
 
   ngOnInit() {
 
   }
-////////////////////ADDUSER////////////////////
+  ////////////////////////getback/////////////
+  getback() {
+    this.router.navigate(['users'])
+  }
+
+
+  ////////////////////ADDUSER////////////////////
   adduser() {
     this.service.Createuser(this.adduserrequest)
       .subscribe({
-        next: (user)=>
-        this.router.navigate(['users'])
+        next: (user) =>
+          this.router.navigate(['users'])
       })
+    // console.log(this.adduserrequest)
   }
-////////////////////ADDUSER////////////////////
+  ////////////////////ADDUSER////////////////////
 }

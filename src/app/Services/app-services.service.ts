@@ -18,4 +18,7 @@ export class AppServicesService {
   public Createuser(user: Usersmodel): Observable<Usersmodel[]> {
     return this.http.post<Usersmodel[]>(`${this.apiUrl}/${this.urlUsers}`, user);
   }
+  public getuser(id: string): Observable<Usersmodel[]> {
+    return this.http.get<Usersmodel[]>(`${this.apiUrl}/${this.urlUsers}/` + id);
+  }
 }

@@ -8228,8 +8228,8 @@
       border-color: #ec8f6a;
       color: #fff; }
       .btn.btn-primary:hover, .btn.btn-primary:focus {
-        border-color: #e66d3d !important;
-        background: #e66d3d !important; }
+        border-color: var(--color1) !important;
+        background: var(--color1) !important; }
       .btn.btn-primary.btn-link {
         background: transparent;
         color: #fff;

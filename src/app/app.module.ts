@@ -11,12 +11,14 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateuserComponent } from './users/createuser/createuser/createuser.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     HomeComponent,
-    CreateuserComponent
+    CreateuserComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,

@@ -1,34 +1,59 @@
 <div style="display: flex; flex-direction: column">
-  <div class="center">
-    <img
-      src="assets/images/userb.png"
-      alt="createuser"
-      width="200px"
-      height="200px"
-      style="margin-left: 250px; margin-top: 20px"
-    />
-    <div style="display: flex">
-      <div class="hr">-----------------------------------------------</div>
-      <div class="mt-2 mr-3">
-        <h1 style="font-family: Andalus; font-size: xxx-large">
-          Create New User
-        </h1>
+  <div style="display: flex; flex-direction: row">
+    <div class="mt-2" style="width: 250px; margin-left: 50px">
+      <button
+        style="
+          border: 0;
+          background-color: transparent;
+          color: #0a66c2;
+          font-weight: bolder;
+        "
+        (click)="getback()"
+      >
+        <mat-icon style="font-size: xxx-large; height: auto; width: auto"
+          >keyboard_backspace</mat-icon
+        >
+      </button>
+    </div>
+    <div class="center">
+      <img
+        src="assets/images/userb.png"
+        alt="createuser"
+        width="200px"
+        height="200px"
+        style="margin-left: 250px; margin-top: 20px"
+      />
+      <div style="display: flex">
+        <div class="hr">-----------------------------------------------</div>
+        <div class="mt-2 mr-3">
+          <h1 style="font-family: Andalus; font-size: xxx-large">
+            Create New User
+          </h1>
+        </div>
+        <div class="hr">-----------------------------------------------</div>
       </div>
-      <div class="hr">-----------------------------------------------</div>
     </div>
   </div>
   <!-- //////////// ////// //////Form ////// ////// ////// //////  -->
 
-  <div class="center mt-3">
+  <div class=" mt-3 ">
     <!-- /////////////Name/////////// -->
-    <form action="">
-      <div>
-        <input id="shadow" class="btn mb-2 mb-md-0 btn-round btn-outline btn-block" type="text" placeholder="name" name="name" [(ngModel)]="adduserrequest.name">
+    <form action="" (ngSubmit)="adduser()" style="width:100%" >
+      <div style="margin-left: 350px;">
+        <input
+          style="width: 200px;margin-left:280px"
+          id="shadow"
+          class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+          type="text"
+          placeholder="name"
+          name="name"
+          [(ngModel)]="adduserrequest.name"
+        />
       </div>
       <div>
         <button
           type="submit"
-          class=" btn mb-2 mb-md-0 btn-secondary btn-block btn-round "
+          class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
           id="fixedbtn"
         >
           <span>Submit</span>

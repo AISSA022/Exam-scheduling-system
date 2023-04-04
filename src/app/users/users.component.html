@@ -1,27 +1,56 @@
 <div>
-  <div class="col-md-3 mb-3 mt-3 w-25">
-    <button
-      mat-button
-      class="btn mb-2 mb-md-0 btn-tertiary btn-block"
-      routerLink="CreateUser"
-    >
-      Create User
-    </button>
+  <div class="mt-4" style="margin-left: 250px">
+    <h1 style="font-family: Andalus; font-size: xxx-large">Users</h1>
+  </div>
+  <div style="margin-left: 250px; margin-right: 300px">
+    <hr color="black" />
   </div>
 
-  <table mat-table [dataSource]="dataSource" matSort>
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-    </ng-container>
+  <div class="col-md-3 mb-3 mt-2" style="width: 250px; margin-left: 1000px">
+    <button
+      type="button"
+      class="btn mt-3 mb-2 mb-md-0 btn-primary btn-block"
+      style="background-color: #0a66c2; border-color: #0a66c2"
+      routerLink="CreateUser"
+    >
+      <span>Create User</span>
+      <div class="icon d-flex align-items-center justify-content-center">
+        <mat-icon style="color: #0a66c2">account_circle</mat-icon>
+      </div>
+    </button>
+  </div>
+  <!-- ////////////////////////// -->
+  <div class="mb-5" style="width: 1000px; margin-left: 250px">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-    </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Edit</th>
+        <td mat-cell *matCellDef="let element">
+         
+          <button class="link-button" [routerLink]="['/users/EditUser',element.id]">edit</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      #paginator
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+    <!-- <button routerLink="edituser">edit</button> -->
+  </div>
 </div>
 <router-outlet></router-outlet>
