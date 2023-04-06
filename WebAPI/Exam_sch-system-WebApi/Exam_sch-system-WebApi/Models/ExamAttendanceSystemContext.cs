@@ -23,7 +23,6 @@ public partial class ExamAttendanceSystemContext : DbContext
     {
 
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>(entity =>
@@ -40,9 +39,20 @@ public partial class ExamAttendanceSystemContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.Name)
+            entity.Property(e => e.Birthday).HasColumnType("date");
+            entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Gender)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Major).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);
