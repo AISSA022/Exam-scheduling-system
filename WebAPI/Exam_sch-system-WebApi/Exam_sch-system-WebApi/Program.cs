@@ -1,4 +1,5 @@
 using Exam_sch_system_WebApi.Models;
+using Exam_sch_system_WebApi.Models.User;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 

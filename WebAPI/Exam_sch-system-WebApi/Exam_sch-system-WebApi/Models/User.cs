@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Exam_sch_system_WebApi.Models;
+namespace Exam_sch_system_WebApi.Models.User;
 
 public partial class User
 {
@@ -19,5 +19,13 @@ public partial class User
 
     public DateTime Birthday { get; set; }
 
-    public string Major { get; set; } = null!;
+    public byte[] Password { get; set; } = null!;
+
+    public byte[] PasswordSalt { get; set; } = null!;
+
+    public bool Status { get; set; }
+
+    public bool LoggedIn { get; set; }
+
+    public int RoleId { get; set; }
 }

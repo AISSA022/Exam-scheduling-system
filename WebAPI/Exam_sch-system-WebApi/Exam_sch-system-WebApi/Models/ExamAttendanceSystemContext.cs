@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Exam_sch_system_WebApi.Models;
+namespace Exam_sch_system_WebApi.Models.User;
 
 public partial class ExamAttendanceSystemContext : DbContext
 {
@@ -19,10 +19,7 @@ public partial class ExamAttendanceSystemContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>(entity =>
@@ -52,7 +49,6 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Major).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

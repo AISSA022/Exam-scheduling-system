@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Exam_sch_system_WebApi.Models;
+using Exam_sch_system_WebApi.Models.User;
 
 namespace Exam_sch_system_WebApi.Controllers
 {
