@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Exam_sch_system_WebApi.Models.User;
+namespace Exam_sch_system_WebApi.Models;
 
 public partial class ExamAttendanceSystemContext : DbContext
 {
@@ -36,6 +36,8 @@ public partial class ExamAttendanceSystemContext : DbContext
         {
             entity.ToTable("User");
 
+            entity.HasIndex(e => e.Email, "UK_Email_User").IsUnique();
+
             entity.Property(e => e.Birthday).HasColumnType("date");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
@@ -49,6 +51,8 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Password).IsUnicode(false);
+            entity.Property(e => e.PasswordSalt).IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Exam_sch_system_WebApi.Models;
-using Exam_sch_system_WebApi.Models.User;
 
 namespace Exam_sch_system_WebApi.Controllers
 {
@@ -83,7 +82,7 @@ namespace Exam_sch_system_WebApi.Controllers
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+    /*    [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
           if (_context.Users == null)
@@ -94,7 +93,7 @@ namespace Exam_sch_system_WebApi.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
+        }*/
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]

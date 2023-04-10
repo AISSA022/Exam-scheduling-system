@@ -1,7 +1,4 @@
-﻿using Exam_sch_system_WebApi.Models.User;
-using Exam_sch_system_WebApi.Models.User.UserServices;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Exam_sch_system_WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,23 +12,18 @@ namespace Exam_sch_system_WebApi.Controllers
     public class AuthController : ControllerBase
     {
         ///Defining User
-        public static User user = new User();
-        private readonly IUserServices _userService;
+        /**//*public static User user = new User();
+*/        /*private readonly IUserService _userService;*/
 
-        public IConfiguration Configuration { get; }
-
+        private readonly IConfiguration _configuration;
         public AuthController(IConfiguration configuration)
         {
-            Configuration = configuration;
-        }
+            _configuration = configuration;
+/*            userService = userService ;
+*/        }
 
-        [HttpGet, Authorize]
-        public ActionResult<string> GetMe()
-        {
-            var userName = _userService.GetMyName();
-            return Ok(userName);
-        }
 
+        /*
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
@@ -66,16 +58,17 @@ namespace Exam_sch_system_WebApi.Controllers
             }
         }
 
-        private bool VerifyPassword(string Password, byte[] PasswordHash, byte[] PasswordSalt)
+        private bool VerifyPassword(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512(PasswordSalt))
+
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var computeHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(Password));
-                return computeHash.SequenceEqual(PasswordHash);
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
             }
         }
 
-        private string CreateToken(User user)
+        *//*private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
              {
@@ -83,15 +76,48 @@ namespace Exam_sch_system_WebApi.Controllers
              };
             ///Download Microsoft.IdentityModels.Tokens
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                Configuration.GetSection("AppSettings:Token").Value));
+                
+                _configuration.GetSection("AppSettings:Token").Value));
+
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: cred
                 );
+
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+*//*
+        private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name,user.Id.ToString() ),
+                new Claim(ClaimTypes.Role, "Admin")
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                _configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }*/
+        /*   [HttpGet, Authorize]
+   public ActionResult<string> GetMe()
+   {
+       var userName = _userService.GetMyName();
+       return Ok(userName);
+   }*/
     }
 }
