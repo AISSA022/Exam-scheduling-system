@@ -1,5 +1,9 @@
 using Exam_sch_system_WebApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,6 +20,25 @@ builder.Services.AddCors(options => options.AddPolicy(name: "ExamSchedOrigins",
   }));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+builder.Services.AddAuthentication(x => 
+{
+    x.DefaultAuthenticateScheme= JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x => 
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretverysecret....")),
+        ValidateAudience = false,
+        ValidateIssuer=false
+    };
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var app = builder.Build();
 
@@ -29,6 +52,8 @@ app.UseHttpsRedirection();
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 

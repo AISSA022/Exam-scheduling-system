@@ -52,7 +52,11 @@ public partial class ExamAttendanceSystemContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Password).IsUnicode(false);
-            entity.Property(e => e.PasswordSalt).IsUnicode(false);
+            entity.Property(e => e.RefreshToken).IsUnicode(false);
+            entity.Property(e => e.RefreshTokenTime).HasColumnType("datetime");
+            entity.Property(e => e.Token)
+                .IsUnicode(false)
+                .HasColumnName("token");
         });
 
         OnModelCreatingPartial(modelBuilder);
