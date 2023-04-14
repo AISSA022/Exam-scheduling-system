@@ -2,6 +2,7 @@
 /* //#88b77b// */
 :root{
   --color1:#0a66c2;
+  --text:Andalus;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -68,3 +69,59 @@ transform: rotate(-45deg);
   cursor: pointer;
   text-decoration: underline;
 }
+.capitalize {
+  text-transform:uppercase;
+}
+.mtedit{
+  display: flex;
+   flex-direction: row;
+   font-family: var(--text); 
+   font-size: xxx-large;
+   margin-top:30px;
+   margin-left:250px
+}
+.borderr{
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.triangle {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-top: 50px solid blue;
+  border-right: 50px solid transparent;
+  float: left;
+}
+
+.rec{
+  width: 80px;
+  height: 35px;
+  background-color: #0a66c2;
+  border-radius: 0 5px 5px 0;
+  float: right;
+}
+  .label-size {
+  border:1px dashed #000000;
+  border-bottom-right-radius: 30px;
+  border-top-left-radius: 30px;
+  background:var(--color1);
+  display:block;
+  float:left;
+  margin:0 3px 3px 0;
+  color:#ffffff;
+  font-size:11px;
+  text-transform:uppercase;
+  width: 200px;
+  height: 40px;
+  }
+  
+  .label-size p{
+    margin-left: 30px;
+    font-weight: 500;
+    font-size: x-large;
+    font-family: var(--text); 
+    margin-top: 10px;
+   }
+ 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Usersmodel } from 'src/app/Models/Users';
 import { AppServicesService } from 'src/app/Services/app-services.service';
-
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
@@ -14,25 +14,29 @@ export class EditUserComponent implements OnInit {
     id:0,
     name:''
   };
-  details?:Usersmodel;
-  constructor(private route: ActivatedRoute, private services: AppServicesService) { }
+  id?: number;
+  constructor(private route: ActivatedRoute, private services: AppServicesService,) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe({
-      next: (z) => {
-        const id = z.get('id');
-
-        if (id) {
-          this.services.getuser(id)
-          .subscribe({
-              next: (result) => {
-                // this.userdetails.name=result.values.name
-                this.details=result.values
-              }
-            });
-        }
-      }
-    })
+    this.route.params.subscribe((params: Params) => {
+      this.id = +params['id'];
+      this.services.getuser(this.id).subscribe({
+        next:(res)=>
+        this.userdetails=res
+      })
+    });
   }
+
+  ////////////////////updateuser///////////////
+//   updateuser(){
+//     const name=this.userdetails.name
+// this.services.updateuser(this.userdetails.id,this.userdetails.name).subscribe({
+//   next:(res)=>
+//   console.log(res)
+// })
+// }
+/////////////////////////////////////////
+  
+
 
 }

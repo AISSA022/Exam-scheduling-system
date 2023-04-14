@@ -34,9 +34,15 @@
 
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef>Edit</th>
-        <td mat-cell *matCellDef="let element">
-         
-          <button class="link-button" [routerLink]="['/users/EditUser',element.id]">edit</button>
+        <td mat-cell *matCellDef="let element">        
+          <button class="link-button" (click)="gotoedit(element.id)">edit</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Delete</th>
+        <td mat-cell *matCellDef="let element">        
+          <button class="link-button" (click)="deleteuser(element.id)">Delete</button>
         </td>
       </ng-container>
 
@@ -50,7 +56,6 @@
       aria-label="Select page"
     >
     </mat-paginator>
-    <!-- <button routerLink="edituser">edit</button> -->
   </div>
 </div>
-<router-outlet></router-outlet>
+

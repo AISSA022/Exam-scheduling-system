@@ -12,13 +12,16 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateuserComponent } from './users/createuser/createuser/createuser.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
+import { DeleteuserComponent } from './users/deleteuser/deleteuser.component';
+import{MatDialog} from '@angular/material/dialog'
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     HomeComponent,
     CreateuserComponent,
-    EditUserComponent
+    EditUserComponent,
+    DeleteuserComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
     FormsModule,
     MaterialsModule,
     NgbDropdownModule,
-    HttpClientModule
+    HttpClientModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
