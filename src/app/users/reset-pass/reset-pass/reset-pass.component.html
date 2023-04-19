@@ -1,0 +1,88 @@
+<div class="outer">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+        <div class="panel border bg-white">
+          <div class="panel-heading">
+            <h3 class="pt-3 font-weight-bold">Reset Password</h3>
+          </div>
+          <div class="panel-body pt-3">
+            <form [formGroup]="resetPasswordForm" (ngSubmit)="reset()">
+              <!-- ////////// -->
+              <div class="form-group p-3">
+                <div
+                  class="input-field"
+                  [class.error]="
+                    resetPasswordForm.controls['password'].dirty &&
+                    resetPasswordForm.hasError('required', 'password')
+                  "
+                >
+                  <span class="fa fa-lock px-2"></span>
+                  <input
+                    type="password"
+                    placeholder=" New Password"
+                    formControlName="password"
+                  />
+                </div>
+              </div>
+              <small
+                *ngIf="
+                  resetPasswordForm.controls['password'].dirty &&
+                  resetPasswordForm.hasError('required', 'password')
+                "
+                class="text-danger ml-3"
+                >*Password Is Required*</small
+              >
+              <!-- ////////// -->
+              <div class="form-group p-3">
+                <div
+                  class="input-field"
+                  [class.error]="
+                    resetPasswordForm.controls['confirmPassword'].dirty &&
+                    resetPasswordForm.hasError('required', 'confirmPassword')
+                  "
+                >
+                  <span class="fa fa-lock px-2"></span>
+                  <input
+                    type="password"
+                    placeholder=" Confirm Password"
+                    formControlName="confirmPassword"
+                  />
+                </div>
+              </div>
+              <small
+                *ngIf="
+                  resetPasswordForm.controls['confirmPassword'].dirty &&
+                  resetPasswordForm.hasError('required','confirmPassword')
+                "
+                class="text-danger ml-3"
+                >*Confirm Password Is Required*</small
+              >
+              <small
+                *ngIf="
+                  resetPasswordForm.hasError(
+                    'ConfirmPasswordValidators',
+                    'confirmPassword'
+                  )
+                "
+                class="text-danger ml-3"
+                >*Password Didn't Matched*</small
+              >
+              <button
+                type="submit"
+                class="btn btn-primary ml-3"
+                style="
+                  background-color: #0a66c2;
+                  border-color: #0a66c2;
+                  width: 400px;
+                "
+              >
+                Reset
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

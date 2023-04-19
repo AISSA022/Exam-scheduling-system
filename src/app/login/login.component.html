@@ -1,0 +1,121 @@
+<div class="outer">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-lg-5 col-md-7 offsert-lg-4 offset-md-3">
+        <div class="panel border bg-white">
+          <div class="panel-heading">
+            <h3 class="pt-3 font-weight-bold">Login</h3>
+          </div>
+          <div class="panel-body p-3">
+            <form [formGroup]="LoginForm">
+              <!-- ////////// -->
+              <div
+                class="form-group pt-3"
+                [class.error]="
+                  LoginForm.controls['email'].dirty &&
+                  LoginForm.hasError('required', 'email')
+                "
+              >
+                <div class="input-field">
+                  <span class="fa fa-user p-2"></span>
+                  <input
+                    formControlName="email"
+                    type="text"
+                    placeholder="Email"
+                  />
+                </div>
+              </div>
+              <small
+                *ngIf="
+                  LoginForm.controls['email'].dirty &&
+                  LoginForm.hasError('required', 'email')
+                "
+                class="text-danger"
+                >*Email Is Required</small
+              >
+              <!-- /////////////// -->
+              <div class="form-group pt-3">
+                <div class="input-field">
+                  <span class="fa fa-lock p-2"></span>
+                  <input
+                    formControlName="password"
+                    [type]="type"
+                    placeholder="Password"
+                  />
+                  <span class="fa fa-eye-slash" (click)="hidepass()"></span>
+                </div>
+              </div>
+              <small
+                *ngIf="
+                  LoginForm.controls['password'].dirty &&
+                  LoginForm.hasError('required', 'password')
+                "
+                class="text-danger"
+                >Password Is Required</small
+              >
+              <!-- /////////////// -->
+              <div class="form-inline fr mt-4 d-flex justify-content-end" >
+                <a routerLink="" (click)="openModal()" style="color: #0a66c2"
+                  >Forget Password?
+                </a>
+              </div>
+              <button
+                [disabled]="LoginForm.invalid"
+                (click)="login()"
+                type="submit"
+                class="btn btn-primary btn-block mt-4 w-100"
+                style="background-color: #0a66c2; border-color: #0a66c2"
+              >
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title" id="exampleModalLabel">
+          <span style="font-size: 25px; font-weight: 700"
+            >Forget Your Password?</span
+          ><br />
+          <small>Please Provide Your Email We Will Send The Reset Link</small>
+        </p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group pt-3">
+          <div class="input-field">
+            <span class="fa fa-user p-2"></span>
+            <input [(ngModel)]="resetPasswordEmail" (ngModelChange)="CheckValidEmail($event)"  type="text" placeholder="Email" />
+          </div>
+        </div>
+         <small *ngIf="!resetPasswordEmail" class="text-danger">*Email Is Required*</small>
+        <small *ngif="!isValidEmail && resetPasswordEmail" class="text-danger">*Email Is Invalid*</small>
+
+      </div>
+      <div class="modal-footer">
+        <button id="CloseBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" (click)="confirmToSend()" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -1,1 +1,48 @@
-<p>deleteuser works!</p>
+<div style="height: 33vh; width: 500px">
+  <div>
+    <mat-icon
+      style="
+        color: red;
+        width: auto;
+        height: auto;
+        font-size: 6em;
+        margin-top: 10px;
+        margin-left: 220px;
+      "
+      >highlight_off</mat-icon
+    >
+  </div>
+  <div style="margin-left: 45px">
+    <h1>Are you sure you want to delete {{ data.firstName }}?</h1>
+  </div>
+  <div style="display: flex;margin-left:100px">
+    <div style="margin-left: 10px">
+      <button
+        style="
+          width: 150px;
+          background-color: red;
+          color: white;
+          font-weight: bold;
+        "
+        class="btn btn-block btn-round mt-1"
+        (click)="deleteuser(data.id)"
+      >
+        Delete
+      </button>
+    </div>
+    <div style="margin-left: 5px;">
+      <button
+        style="
+          width: 150px;
+          background-color: #0a66c2;
+          color: white;
+          font-weight: bold;
+        "
+        class="btn btn-block btn-round mt-1"
+        (click)="cancle()"
+      >
+        Cancle
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
-<div style="display: flex; flex-direction: column">
+<div style="display: flex; flex-direction: column; height: 90vh">
   <div style="display: flex; flex-direction: row">
-    <div class="mt-2" style="width: 250px; margin-left: 50px">
+    <div style="width: 50px">
       <button
         style="
           border: 0;
@@ -8,55 +8,149 @@
           color: #0a66c2;
           font-weight: bolder;
         "
-        (click)="getback()"
+        (click)="closedialog()"
       >
         <mat-icon style="font-size: xxx-large; height: auto; width: auto"
           >keyboard_backspace</mat-icon
         >
       </button>
     </div>
-    <div class="center">
+    <div class="center" style="width: 100%">
       <img
         src="assets/images/userb.png"
         alt="createuser"
-        width="200px"
-        height="200px"
-        style="margin-left: 250px; margin-top: 20px"
+        width="100px"
+        height="100px"
+        style="margin-top: 20px; margin-left: 200px"
       />
-      <div style="display: flex">
-        <div class="hr">-----------------------------------------------</div>
+      <div style="display: flex; margin-right: 200px; width: 100%">
+        <div class="hr">---------------------</div>
         <div class="mt-2 mr-3">
-          <h1 style="font-family: Andalus; font-size: xxx-large">
+          <h1 style="font-family: Andalus; font-size: xxx-large; margin: 0px">
             Create New User
           </h1>
         </div>
-        <div class="hr">-----------------------------------------------</div>
+        <div class="hr">---------------------</div>
       </div>
     </div>
   </div>
   <!-- //////////// ////// //////Form ////// ////// ////// //////  -->
 
-  <div class=" mt-3 ">
+  <div class="mt-3">
     <!-- /////////////Name/////////// -->
-    <form action="" (ngSubmit)="adduser()" style="width:100%" >
-      <div style="margin-left: 350px;">
+    <form [formGroup]="createuserForm" (ngSubmit)="adduser()" style="width: 100%">
+      <div style="display: flex">
+        <div>
+          <input
+            style="width: 200px; margin-left: 250px"
+            id="shadow"
+            class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+            type="text"
+            placeholder="First Name"
+            name="firstName"
+            formControlName="firstName"
+          />
+        </div>
+        <div>
+          <input
+            style="width: 200px; margin-left: 10px"
+            id="shadow"
+            class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+            type="text"
+            placeholder="Last Name"
+            name="lastName"
+            formControlName="lastName"
+          />
+        </div>
+      </div>
+      <div>
         <input
-          style="width: 200px;margin-left:280px"
+          style="width: 350px; margin-left: 280px"
           id="shadow"
           class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
           type="text"
-          placeholder="name"
-          name="name"
-          [(ngModel)]="adduserrequest.name"
+          placeholder="Email"
+          name="email"
+          formControlName="email"
         />
       </div>
+
+      <div>
+        <input
+          style="width: 300px; margin-left: 310px"
+          id="shadow"
+          class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+          type="text"
+          placeholder="Password"
+          name="password"
+          formControlName="password"
+        />
+        <section class="example-section" style="margin-left: 330px">
+          <mat-checkbox class="example-margin" style="margin-top: 5px"
+            >Default</mat-checkbox
+          >
+        </section>
+      </div>
+
+      <div style="display: flex">
+  
+        <mat-form-field appearance="fill" style="margin-left: 150px;height:75px;margin-top:20px">
+          <mat-label>Gender</mat-label>
+          <select matNativeControl formControlName="gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </mat-form-field>
+
+        <div style="margin-top: 18px" class="ml-2">
+          <mat-form-field appearance="fill">
+            <mat-label>Birthday:</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="birthday"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <input
+            style="width: 200px; margin-left: 20px"
+            id="shadow"
+            class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+            type="text"
+            placeholder="Phone Number"
+            name="phoneNumber"
+            formControlName="phoneNumber"
+          />
+        </div>
+      </div>
+
       <div>
         <button
           type="submit"
           class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
           id="fixedbtn"
         >
-          <span>Submit</span>
+          <span>Create</span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black"> done_outline</mat-icon>
+          </div>
+        </button>
+        <button
+          class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
+          id="fixedbtn"
+          style="left: 5%"
+          type="button"
+          (click)="closedialog()"
+        >
+          <span>Cancle</span>
           <div
             class="icon icon-round d-flex align-items-center justify-content-center"
           >

@@ -1,0 +1,53 @@
+<div class="modal-header d-block">
+  <div>
+    <h1
+      class="modal-title"
+      style="font-size: 25px; font-weight: 700"
+      id="exampleModalLabel"
+    >
+      Forget Your Password?
+    </h1>
+  </div>
+  <br />
+  <div>
+    <small>Please Provide Your Email We Will Send The Reset Link</small>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="form-group pt-3">
+    <div class="input-field">
+      <span class="fa fa-user p-2"></span>
+      <input
+        [(ngModel)]="resetPasswordEmail"
+        (ngModelChange)="CheckValidEmail($event)"
+        type="text"
+        placeholder="Email"
+      />
+    </div>
+  </div>
+  <small *ngIf="!resetPasswordEmail" class="text-danger"
+    >*Email Is Required*</small
+  >
+  <small *ngIf="!isValidEmail && resetPasswordEmail" class="text-danger"
+    >*Email Is Invalid*</small
+  >
+</div>
+<div class="modal-footer">
+  <button
+    id="closeBtn"
+    type="button"
+    class="btn btn-secondary"
+    data-bs-dismiss="modal"
+    (click)="colsebtn()"
+  >
+    Close
+  </button>
+  <button
+    type="button"
+    (click)="confirmToSend()"
+    class="btn btn-primary"
+    style="background-color: #0a66c2;border-color:#0a66c2"
+  >
+    Send
+  </button>
+</div>

@@ -1,0 +1,87 @@
+<mat-sidenav-container  style="margin: 0px" >
+  <mat-sidenav  [(opened)]="opened" >
+    <!-- ////Home/// -->
+    <div>
+      <div style="height: 100px">
+        <img src="../assets/images/logo.png" width="200px" height="100px" />
+      </div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-block btn-round"
+        routerLink="home"
+        
+      >
+        <span>Home</span>
+        <div
+          class="icon icon-round d-flex align-items-center justify-content-center"
+        >
+          <mat-icon style="color: black"> home</mat-icon>
+        </div>
+      </button>
+    </div>
+    <!-- /////Users///// -->
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-block btn-round mt-1"
+        routerLink="users"
+      >
+        <span>Users</span>
+        <div
+          class="icon icon-round d-flex align-items-center justify-content-center"
+        >
+          <mat-icon style="color: black"> accessibility</mat-icon>
+        </div>
+      </button>
+    </div>
+
+    <!-- ///// ////// -->
+  </mat-sidenav>
+  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <mat-sidenav-container >
+    <mat-toolbar  style="background-color: white" class="animated">
+      <div class="d-flex">
+        <div
+          style="background-color: transparent"
+          class="example-button-container"
+        >
+          <button
+            (click)="opened = !opened"
+            mat-mini-fab
+            color="black"
+            aria-label="Example icon button with a menu icon"
+            *ngIf="gettoken()"
+          >
+            <mat-icon style="background-color: white">menu</mat-icon>
+          </button>
+        </div>
+        <div class="ml-5 mt-2">
+          <h2 style="font-family: Segoe Print; font-size: larger">
+            Exam Schedualing
+          </h2>
+        </div>
+        <div style="position: absolute; top: 0; right: 0; padding: 5px" *ngIf="gettoken()">
+          <!-- <button type="button" (click)="logout()">Logout</button> -->
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="navigateToUserProfile()">
+              <mat-icon>assignment_ind</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Log Out</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </mat-toolbar>
+    <div>
+      <lib-ng-toast></lib-ng-toast>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>
+  <!-- ////////////////////////////////// -->
+</mat-sidenav-container>
