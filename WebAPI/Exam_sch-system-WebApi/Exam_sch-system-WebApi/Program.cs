@@ -1,4 +1,5 @@
 using Exam_sch_system_WebApi.Models;
+using Exam_sch_system_WebApi.UtilityService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,6 +21,9 @@ builder.Services.AddCors(options => options.AddPolicy(name: "ExamSchedOrigins",
   }));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////EmailSend///////////////////////
+builder.Services.AddScoped<IEmailServices, EmailService>();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 builder.Services.AddAuthentication(x => 
 {

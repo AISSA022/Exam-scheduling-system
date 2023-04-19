@@ -31,5 +31,9 @@ public partial class User
 
     public string? RefreshToken { get; set; }
 
-    public DateTime? RefreshTokenTime { get; set; }
+    public DateTime RefreshTokenTime { get; set; }
+
+    public string? ResetPasswordToken { get; set; }
+
+    public DateTime ResetPasswordExpiry { get; set; }
 }

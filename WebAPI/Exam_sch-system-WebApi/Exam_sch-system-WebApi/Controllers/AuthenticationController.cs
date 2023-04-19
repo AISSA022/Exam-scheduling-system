@@ -31,7 +31,7 @@ namespace Exam_sch_system_WebApi.Controllers
             {
                 return BadRequest(new
                 {
-                    Message= "User Is Null"
+                    errMessage= "User Is Null"
                 });
             }
 
@@ -46,7 +46,7 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             if (!PasswordHasher.VerifyPassword(userobj.Password, user.Password))
             {
-                return BadRequest(new { Message = "Password Is Incorrect" });
+                return BadRequest(new { errMessage = "Password Is Incorrect" });
             }
             user.Token = Createjwt(user);
             var newAccessToken = user.Token;
@@ -66,15 +66,15 @@ namespace Exam_sch_system_WebApi.Controllers
         {
             if (user == null)
             {
-                return BadRequest(new { Message = "User Is Null" });
+                return BadRequest(new { errMessage = "User Is Null" });
             }
+            var emailexists = await CheckEmailExistAsync(user.Email);
+            if (emailexists)
+                return NotFound(new{ errMessage = "Email Already Exist!" });
+            
+/*            var pass = CheckPasswordStrength(user.Password);
 
-            if (await CheckEmailExistAsync(user.Email))
-                return BadRequest(new { Message="Email Already Exist!"} );
-
-            /*var pass = CheckPasswordStrength(user.Password);
-
-            if(!string.IsNullOrEmpty(pass))
+            if (!string.IsNullOrEmpty(pass))
             {
                 return BadRequest(new { Message = pass.ToString() });
             }*/
@@ -82,11 +82,13 @@ namespace Exam_sch_system_WebApi.Controllers
 
             user.Password = PasswordHasher.HashPassword(user.Password);
             user.Token = "";
+            user.RefreshTokenTime= DateTime.Now;
+            user.ResetPasswordExpiry=DateTime.Now.AddMinutes(5);
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return Ok(new
             {
-                Message = "User Registered!"
+                errMessage = "User Registered!"
             });
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,7 +97,7 @@ namespace Exam_sch_system_WebApi.Controllers
         {
             if(tokenApiDto == null)
             {
-                return BadRequest(new {Message="Invalid Client Request"});
+                return BadRequest(new {errMessage="Invalid Client Request"});
             }
             string accessToken=tokenApiDto.AccessToken;
             string refreshToken=tokenApiDto.RefreshToken;
@@ -103,7 +105,7 @@ namespace Exam_sch_system_WebApi.Controllers
             var Email = principle.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == Email);
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenTime <= DateTime.Now) 
-                return BadRequest(new {Message="Invalid Request"});
+                return BadRequest(new {errMessage="Invalid Request"});
             var newAccessToken = Createjwt(user);
             var newRefreshToken = CreateRefreshToken();
             user.RefreshToken = newRefreshToken;
@@ -126,7 +128,7 @@ namespace Exam_sch_system_WebApi.Controllers
             if(!(Regex.IsMatch(password,"[a,z]") && Regex.IsMatch(password,"[A-Z]") && Regex.IsMatch(password,"[0-9]")))
                 sb.Append("Password Should be Alphanumeric" + Environment.NewLine);
 
-            if (!(Regex.IsMatch(password,"[<,>,@,#,$,%,^,&,*,=,.,',;,!,{,},~,/,\\,:]")))
+            if (!(Regex.IsMatch(password,"[<,>,@,#,$,%,^,&,*,=,.,:]")))
                 sb.Append("Password Should Contain Special Char" + Environment.NewLine);
             return sb.ToString();
         }

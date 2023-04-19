@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Exam_sch_system_WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
+using Exam_sch_system_WebApi.Helper;
+using Exam_sch_system_WebApi.UtilityService;
+using Exam_sch_system_WebApi.Models.Dto;
 
 namespace Exam_sch_system_WebApi.Controllers
 {
@@ -15,10 +19,13 @@ namespace Exam_sch_system_WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ExamAttendanceSystemContext _context;
-
-        public UsersController(ExamAttendanceSystemContext context)
+        private readonly IConfiguration _configuration;
+        private readonly IEmailServices _emailService;
+        public UsersController(ExamAttendanceSystemContext context,IConfiguration configuration,IEmailServices emailService)
         {
             _context = context;
+            _configuration = configuration;
+            _emailService = emailService;
         }
         
         // GET: api/Users
@@ -143,13 +150,13 @@ namespace Exam_sch_system_WebApi.Controllers
         }
 
 
-        [HttpGet("getid")]
+        [HttpGet("getid/{email}")]
         public async Task<IActionResult> GetUserIdByEmail(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null)
             {
-                return BadRequest(new { message = "Email not found." });
+                return BadRequest(new { errmessage = "Email not found." });
             }
             return Ok(new { id = user.Id });
         }
@@ -157,6 +164,97 @@ namespace Exam_sch_system_WebApi.Controllers
         private bool UserExists(int id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        /////////////////////////////////////
+        [HttpPost("send-reset-email/{email}")]
+        public async Task<IActionResult> SendEmail(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(a => a.Email == email);
+            if (user is null)
+            {
+                return NotFound(new
+                {
+                    StatusCode=404,
+                    errMessage="Email Doesn't Exist"
+                });
+            }
+            var tokenBytes = RandomNumberGenerator.GetBytes(64);
+            var emailToken=Convert.ToBase64String(tokenBytes);
+            user.ResetPasswordToken = emailToken;
+            user.ResetPasswordExpiry=DateTime.Now.AddMinutes(15);
+            string from = _configuration["EmailSettings:From"];
+            var emailModel = new EmailModel(email, "Reset Password!!", EmailBody.EmailStringBody(email, emailToken));
+
+
+            _emailService.SendEmail(emailModel);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                StatusCode=200,
+                errMessage="Email Sent"
+            });
+         }
+        [HttpPost("send-reset-pass/{email}")]
+        public async Task<IActionResult> resetpass(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(a => a.Email == email);
+            if (user is null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    errMessage = "Email Doesn't Exist"
+                });
+            }
+            var tokenBytes = RandomNumberGenerator.GetBytes(64);
+            var emailtoken = Convert.ToBase64String(tokenBytes);
+            user.ResetPasswordToken = emailtoken;
+            user.ResetPasswordExpiry = DateTime.Now.AddMinutes(15);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                user.ResetPasswordToken,
+                user.ResetPasswordExpiry,
+                StatusCode = 200,
+                errMessage = "pass Sent"
+            });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            var newToken = resetPasswordDto.EmailToken.Replace(" ", "+");
+            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(a => a.Email == resetPasswordDto.Email);
+         if (user is null)
+            {
+                return NotFound(new
+                {
+                    StatusCode=404,
+                    errMessage="Email Doesn't Exist"
+                });
+            }
+            var tokenCode = user.ResetPasswordToken;
+            DateTime emailTokenExpiry = user.ResetPasswordExpiry;
+            if(tokenCode != resetPasswordDto.EmailToken || emailTokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    errMessage = "Invalid Reset Link"
+                });
+            }
+            user.Password = PasswordHasher.HashPassword(resetPasswordDto.NewPassword);
+            _context.Entry(user).State=EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                StatusCode = 200,
+                errMessage = "Password Reset Successfully!"
+            });
         }
     }
 }

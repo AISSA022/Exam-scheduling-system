@@ -54,6 +54,8 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.Password).IsUnicode(false);
             entity.Property(e => e.RefreshToken).IsUnicode(false);
             entity.Property(e => e.RefreshTokenTime).HasColumnType("datetime");
+            entity.Property(e => e.ResetPasswordExpiry).HasColumnType("datetime");
+            entity.Property(e => e.ResetPasswordToken).IsUnicode(false);
             entity.Property(e => e.Token)
                 .IsUnicode(false)
                 .HasColumnName("token");
