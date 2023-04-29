@@ -68,18 +68,24 @@ namespace Exam_sch_system_WebApi.Controllers
             {
                 return BadRequest(new { errMessage = "User Is Null" });
             }
+            ///
             var emailexists = await CheckEmailExistAsync(user.Email);
             if (emailexists)
                 return NotFound(new{ errMessage = "Email Already Exist!" });
-            
+            ///
 /*            var pass = CheckPasswordStrength(user.Password);
 
             if (!string.IsNullOrEmpty(pass))
             {
-                return BadRequest(new { Message = pass.ToString() });
+                return BadRequest(new { errMessage = pass.ToString() });
             }*/
+            ///
+            if (CheckIfAbove18Years(user.Birthday))
+            {
+                return BadRequest(new { errMessage = "Please Check Your Age!" });
+            }
 
-
+            ///
             user.Password = PasswordHasher.HashPassword(user.Password);
             user.Token = "";
             user.RefreshTokenTime= DateTime.Now;
@@ -116,9 +122,24 @@ namespace Exam_sch_system_WebApi.Controllers
                 RefreshToken=newRefreshToken,
             });
         }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        [HttpGet]
+        public Boolean CheckIfAbove18Years(DateTime dob)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - dob.Year;
+            if (age > 18)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        ///////
         private Task<bool> CheckEmailExistAsync(string email) 
             =>_context.Users.AnyAsync(x => x.Email == email);
+        ///////
         private string CheckPasswordStrength(string password)
         {
             StringBuilder sb= new StringBuilder();
@@ -132,7 +153,7 @@ namespace Exam_sch_system_WebApi.Controllers
                 sb.Append("Password Should Contain Special Char" + Environment.NewLine);
             return sb.ToString();
         }
-
+        ///////
         private string Createjwt(User user)
         {
             var jwttokenHandler = new JwtSecurityTokenHandler();
@@ -155,6 +176,7 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return jwttokenHandler.WriteToken(Token);
         }
+        ///////
         private string CreateRefreshToken()
         {
             var tokenByte = RandomNumberGenerator.GetBytes(64);
@@ -168,7 +190,7 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             return refreshToken;
         }
-
+        ///////
         private ClaimsPrincipal GetPrincipleFromExpiredToken(string token)
         {
             var TokenValidationParameters = new TokenValidationParameters

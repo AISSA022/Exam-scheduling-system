@@ -216,8 +216,7 @@ namespace Exam_sch_system_WebApi.Controllers
             await _context.SaveChangesAsync();
             return Ok(new
             {
-                user.ResetPasswordToken,
-                user.ResetPasswordExpiry,
+                tokenBytes = tokenBytes,
                 StatusCode = 200,
                 errMessage = "pass Sent"
             });
