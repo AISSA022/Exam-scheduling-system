@@ -21,21 +21,21 @@ namespace Exam_sch_system_WebApi.Controllers
         private readonly ExamAttendanceSystemContext _context;
         private readonly IConfiguration _configuration;
         private readonly IEmailServices _emailService;
-        public UsersController(ExamAttendanceSystemContext context,IConfiguration configuration,IEmailServices emailService)
+        public UsersController(ExamAttendanceSystemContext context, IConfiguration configuration, IEmailServices emailService)
         {
             _context = context;
             _configuration = configuration;
             _emailService = emailService;
         }
-        
+
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
@@ -43,10 +43,10 @@ namespace Exam_sch_system_WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -60,7 +60,7 @@ namespace Exam_sch_system_WebApi.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-    public async Task<IActionResult> PutUser(int id, [FromBody] User updatedUser)
+        public async Task<IActionResult> PutUser(int id, [FromBody] User updatedUser)
         {
             /*if (id != user.Id)
             {
@@ -175,14 +175,14 @@ namespace Exam_sch_system_WebApi.Controllers
             {
                 return NotFound(new
                 {
-                    StatusCode=404,
-                    errMessage="Email Doesn't Exist"
+                    StatusCode = 404,
+                    errMessage = "Email Doesn't Exist"
                 });
             }
             var tokenBytes = RandomNumberGenerator.GetBytes(64);
-            var emailToken=Convert.ToBase64String(tokenBytes);
+            var emailToken = Convert.ToBase64String(tokenBytes);
             user.ResetPasswordToken = emailToken;
-            user.ResetPasswordExpiry=DateTime.Now.AddMinutes(15);
+            user.ResetPasswordExpiry = DateTime.Now.AddMinutes(15);
             string from = _configuration["EmailSettings:From"];
             var emailModel = new EmailModel(email, "Reset Password!!", EmailBody.EmailStringBody(email, emailToken));
 
@@ -192,10 +192,10 @@ namespace Exam_sch_system_WebApi.Controllers
             await _context.SaveChangesAsync();
             return Ok(new
             {
-                StatusCode=200,
-                errMessage="Email Sent"
+                StatusCode = 200,
+                errMessage = "Email Sent"
             });
-         }
+        }
         [HttpPost("send-reset-pass/{email}")]
         public async Task<IActionResult> resetpass(string email)
         {
@@ -227,17 +227,17 @@ namespace Exam_sch_system_WebApi.Controllers
         {
             var newToken = resetPasswordDto.EmailToken.Replace(" ", "+");
             var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(a => a.Email == resetPasswordDto.Email);
-         if (user is null)
+            if (user is null)
             {
                 return NotFound(new
                 {
-                    StatusCode=404,
-                    errMessage="Email Doesn't Exist"
+                    StatusCode = 404,
+                    errMessage = "Email Doesn't Exist"
                 });
             }
             var tokenCode = user.ResetPasswordToken;
             DateTime emailTokenExpiry = user.ResetPasswordExpiry;
-            if(tokenCode != resetPasswordDto.EmailToken || emailTokenExpiry < DateTime.Now)
+            if (tokenCode != resetPasswordDto.EmailToken || emailTokenExpiry < DateTime.Now)
             {
                 return BadRequest(new
                 {
@@ -246,7 +246,7 @@ namespace Exam_sch_system_WebApi.Controllers
                 });
             }
             user.Password = PasswordHasher.HashPassword(resetPasswordDto.NewPassword);
-            _context.Entry(user).State=EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok(new
@@ -255,5 +255,91 @@ namespace Exam_sch_system_WebApi.Controllers
                 errMessage = "Password Reset Successfully!"
             });
         }
+        [HttpGet("get-phonenumber/{userid}")]
+        public async Task<IActionResult> getphonenumber(int userid)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(a => a.Id == userid);
+
+            return Ok(new
+            {
+                phone = user.PhoneNumber
+            });
+        }
+        [HttpGet("getuserinfo/{userid}")]
+        public async Task<IActionResult> getuserinfo(int userid)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(a => a.Id == userid);
+
+            return Ok(new
+            {
+                firstname = user.FirstName,
+                lastname = user.LastName,
+                email = user.Email,
+                phone = user.PhoneNumber,
+                image=user.Image
+            });
+        }
+       
+
+        [HttpPost("addimage/{userId}")]
+        public async Task<IActionResult> UploadUserImage(int userId, IFormFile file)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("Invalid file.");
+            }
+
+            byte[] imageData = null;
+            using (var binaryReader = new BinaryReader(file.OpenReadStream()))
+            {
+                imageData = binaryReader.ReadBytes((int)file.Length);
+            }
+
+            user.Image = imageData;
+
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("updateprofile/{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        /**/
     }
+
+
 }

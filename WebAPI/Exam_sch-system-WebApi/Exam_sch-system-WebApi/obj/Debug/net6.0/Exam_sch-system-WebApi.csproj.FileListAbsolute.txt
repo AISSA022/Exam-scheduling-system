@@ -581,3 +581,6 @@ C:\Users\ALI\OneDrive\Desktop\C.S\Angular\Exam-scheduling-system\WebAPI\Exam_sch
 C:\Users\ALI\OneDrive\Desktop\C.S\Angular\Exam-scheduling-system\WebAPI\Exam_sch-system-WebApi\Exam_sch-system-WebApi\bin\Debug\net6.0\MimeKit.dll
 C:\Users\ALI\OneDrive\Desktop\C.S\Angular\Exam-scheduling-system\WebAPI\Exam_sch-system-WebApi\Exam_sch-system-WebApi\bin\Debug\net6.0\NETCore.MailKit.dll
 C:\Users\ALI\OneDrive\Desktop\C.S\Angular\Exam-scheduling-system\WebAPI\Exam_sch-system-WebApi\Exam_sch-system-WebApi\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\ALI\OneDrive\Desktop\C.S\Angular\Exam-scheduling-system\WebAPI\Exam_sch-system-WebApi\Exam_sch-system-WebApi\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+C:\Users\ALI\OneDrive\Desktop\C.S\Angular\Exam-scheduling-system\WebAPI\Exam_sch-system-WebApi\Exam_sch-system-WebApi\bin\Debug\net6.0\System.Web.Http.dll
+C:\Users\ALI\OneDrive\Desktop\C.S\Angular\Exam-scheduling-system\WebAPI\Exam_sch-system-WebApi\Exam_sch-system-WebApi\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

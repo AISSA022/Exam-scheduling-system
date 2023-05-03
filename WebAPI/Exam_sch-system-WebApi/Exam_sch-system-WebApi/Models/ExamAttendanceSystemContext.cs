@@ -15,21 +15,46 @@ public partial class ExamAttendanceSystemContext : DbContext
     {
     }
 
+    public virtual DbSet<Permission> Permissions { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.ToTable("Permission");
+
+            entity.Property(e => e.PermissionId).ValueGeneratedNever();
+            entity.Property(e => e.GroupName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Permissions)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Permission_Roles");
+        });
+
         modelBuilder.Entity<Role>(entity =>
         {
             entity.Property(e => e.RoleId).ValueGeneratedNever();
-            entity.Property(e => e.Role1)
+            entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Role");
+                .IsUnicode(false);
             entity.Property(e => e.UserId).HasColumnName("userId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Roles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Roles_User");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -48,6 +73,7 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.Gender)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Image).HasColumnName("image");
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .IsUnicode(false);

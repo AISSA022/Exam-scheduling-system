@@ -36,4 +36,8 @@ public partial class User
     public string? ResetPasswordToken { get; set; }
 
     public DateTime ResetPasswordExpiry { get; set; }
+
+    public byte[]? Image { get; set; }
+
+    public virtual ICollection<Role> Roles { get; } = new List<Role>();
 }

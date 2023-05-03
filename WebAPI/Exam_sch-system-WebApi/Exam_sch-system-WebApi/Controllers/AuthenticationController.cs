@@ -90,6 +90,7 @@ namespace Exam_sch_system_WebApi.Controllers
             user.Token = "";
             user.RefreshTokenTime= DateTime.Now;
             user.ResetPasswordExpiry=DateTime.Now.AddMinutes(5);
+            user.RoleId = 2;
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return Ok(new
