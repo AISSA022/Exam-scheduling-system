@@ -11,7 +11,7 @@ public partial class Role
 
     public int UserId { get; set; }
 
-    public virtual ICollection<Permission> Permissions { get; } = new List<Permission>();
+    public virtual ICollection<RolePermission> RolePermissions { get; } = new List<RolePermission>();
 
     public virtual User User { get; set; } = null!;
 }

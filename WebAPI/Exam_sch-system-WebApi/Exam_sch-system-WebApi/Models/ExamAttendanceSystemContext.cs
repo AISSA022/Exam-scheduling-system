@@ -15,16 +15,38 @@ public partial class ExamAttendanceSystemContext : DbContext
     {
     }
 
+    public virtual DbSet<Period> Periods { get; set; }
+
     public virtual DbSet<Permission> Permissions { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<RolePermission> RolePermissions { get; set; }
+
+    public virtual DbSet<Room> Rooms { get; set; }
+
+    public virtual DbSet<RoomPeriod> RoomPeriods { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Period>(entity =>
+        {
+            entity.ToTable("Period");
+
+            entity.Property(e => e.PeriodName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.PeriodTime).HasColumnType("datetime");
+            entity.Property(e => e.TimeFrom).HasColumnType("text");
+            entity.Property(e => e.TimeTo).HasColumnType("text");
+        });
+
         modelBuilder.Entity<Permission>(entity =>
         {
             entity.ToTable("Permission");
@@ -36,11 +58,6 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Role).WithMany(p => p.Permissions)
-                .HasForeignKey(d => d.RoleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Permission_Roles");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -55,6 +72,46 @@ public partial class ExamAttendanceSystemContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Roles_User");
+        });
+
+        modelBuilder.Entity<RolePermission>(entity =>
+        {
+            entity.ToTable("RolePermission");
+
+            entity.HasOne(d => d.Permission).WithMany(p => p.RolePermissions)
+                .HasForeignKey(d => d.PermissionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RolePermission_Permission1");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.RolePermissions)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RolePermission_Roles1");
+        });
+
+        modelBuilder.Entity<Room>(entity =>
+        {
+            entity.ToTable("Room");
+
+            entity.Property(e => e.Building).HasColumnType("text");
+            entity.Property(e => e.RoomName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<RoomPeriod>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__RoomPeri__3214EC07964CEC5D");
+
+            entity.HasOne(d => d.Period).WithMany(p => p.RoomPeriods)
+                .HasForeignKey(d => d.PeriodId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RoomPeriods_Period");
+
+            entity.HasOne(d => d.Room).WithMany(p => p.RoomPeriods)
+                .HasForeignKey(d => d.RoomId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RoomPeriods_Room");
         });
 
         modelBuilder.Entity<User>(entity =>
