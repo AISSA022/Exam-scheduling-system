@@ -1,4 +1,4 @@
-<div style="display: flex; flex-direction: column; height: 90vh">
+<div style="display: flex; flex-direction: column; height: 95vh">
   <div style="display: flex; flex-direction: row">
     <div style="width: 50px">
       <button
@@ -38,7 +38,11 @@
 
   <div class="mt-3">
     <!-- /////////////Name/////////// -->
-    <form [formGroup]="createuserForm" (ngSubmit)="adduser()" style="width: 100%">
+    <form
+      [formGroup]="createuserForm"
+      (ngSubmit)="adduser()"
+      style="width: 100%"
+    >
       <div style="display: flex">
         <div>
           <input
@@ -80,7 +84,7 @@
           style="width: 300px; margin-left: 310px"
           id="shadow"
           class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
-          type="text"
+          type="password"
           placeholder="Password"
           name="password"
           formControlName="password"
@@ -93,8 +97,10 @@
       </div>
 
       <div style="display: flex">
-  
-        <mat-form-field appearance="fill" style="margin-left: 150px;height:75px;margin-top:20px">
+        <mat-form-field
+          appearance="fill"
+          style="margin-left: 150px; height: 75px; margin-top: 20px"
+        >
           <mat-label>Gender</mat-label>
           <select matNativeControl formControlName="gender" required>
             <option value="Male">Male</option>
@@ -157,6 +163,24 @@
             <mat-icon style="color: black"> done_outline</mat-icon>
           </div>
         </button>
+      </div>
+      <div style="margin-bottom: 15px; margin-left: 200px">
+        <mat-form-field
+          appearance="fill"
+          style="margin-left: 150px; height: 75px; margin-top: 20px"
+        >
+          <mat-label>Role</mat-label>
+          <select
+            matNativeControl
+            formControlName="roleId"
+            (change)="getrole()"
+            required
+          >
+            <option [value]="1">Admin</option>
+            <option [value]="2">User</option>
+            <option [value]="3">Employee</option>
+          </select>
+        </mat-form-field>
       </div>
     </form>
   </div>

@@ -16,7 +16,7 @@ export class EditUserComponent implements OnInit {
   id?: number;
   //////////////////constructor//////////////////
   constructor(
-    private dialog:MatDialog,
+    private dialog: MatDialog,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private services: AppServicesService,
@@ -67,11 +67,13 @@ export class EditUserComponent implements OnInit {
             }
           })
       }
-      
+
     }
   }
   /////////////////////////////////////////
-
+  close() {
+    this.dialog.closeAll()
+  }
 
 
 }

@@ -32,8 +32,21 @@ import { UserProfileComponent } from './users/user-profile/user-profile/user-pro
 import { ResetModalComponent } from './login/Reset-modal/reset-modal/reset-modal.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { CommonModule } from '@angular/common';
-import {ResetPassComponent} from './users/reset-pass/reset-pass/reset-pass.component';
-
+import { ResetPassComponent } from './users/reset-pass/reset-pass/reset-pass.component';
+import { RolesComponent } from './roles/roles.component';
+import { EditProfileComponent } from './users/user-profile/edit-profile/edit-profile/edit-profile.component';
+import { EditRolesComponent } from './roles/edit-roles/edit-roles/edit-roles.component';
+import { PermissionComponent } from './roles/permission/permission/permission.component';
+import { PeriodComponent } from './Setup/Period/period/period.component';
+import { RoomsComponent } from './Setup/Rooms/rooms/rooms.component';
+import { CreateRoomComponent } from './Setup/Rooms/rooms/CreateRoom/create-room/create-room.component';
+import { DeleteRoomComponent } from './Setup/Rooms/rooms/DeleteRoom/delete-room/delete-room.component';
+import { EditRoomComponent } from './Setup/Rooms/rooms/EditRoom/edit-room/edit-room.component';
+import { CreatePeriodComponent } from './Setup/Period/period/CreatePeriod/create-period/create-period.component';
+import { DeltePeriodComponent } from './Setup/Period/period/DeeletPeriod/delte-period/delte-period.component';
+import { EditPeriodComponent } from './Setup/Period/period/EditPeriod/edit-period/edit-period.component';
+import { CoursesComponent } from './Courses/courses/courses.component';
+import { CreateCourseComponent } from './Courses/courses/CreateCourse/create-course/create-course.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +60,20 @@ import {ResetPassComponent} from './users/reset-pass/reset-pass/reset-pass.compo
     UserProfileComponent,
     ResetModalComponent,
     ResetPassComponent,
+    RolesComponent,
+    EditProfileComponent,
+    EditRolesComponent,
+    PermissionComponent,
+    PeriodComponent,
+    RoomsComponent,
+    CreateRoomComponent,
+    DeleteRoomComponent,
+    EditRoomComponent,
+    CreatePeriodComponent,
+    DeltePeriodComponent,
+    EditPeriodComponent,
+    CoursesComponent,
+    CreateCourseComponent
 
 
   ],

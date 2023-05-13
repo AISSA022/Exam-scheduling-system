@@ -1,5 +1,5 @@
-<mat-sidenav-container  style="margin: 0px" >
-  <mat-sidenav  [(opened)]="opened" >
+<mat-sidenav-container style="margin: 0px">
+  <mat-sidenav [(opened)]="opened">
     <!-- ////Home/// -->
     <div>
       <div style="height: 100px">
@@ -9,7 +9,6 @@
         type="button"
         class="btn btn-secondary btn-block btn-round"
         routerLink="home"
-        
       >
         <span>Home</span>
         <div
@@ -34,12 +33,91 @@
         </div>
       </button>
     </div>
-
-    <!-- ///// ////// -->
+    <!-- /////roles///// -->
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-block btn-round mt-1"
+        routerLink="roles"
+      >
+        <span>Role</span>
+        <div
+          class="icon icon-round d-flex align-items-center justify-content-center"
+        >
+          <mat-icon style="color: black"> remove_circle</mat-icon>
+        </div>
+      </button>
+    </div>
+    <!-- /////Setup///// -->
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-block btn-round mt-1"
+        (click)="opensetup()"
+      >
+        <span>Setup</span>
+        <div
+          class="icon icon-round d-flex align-items-center justify-content-center"
+        >
+          <mat-icon style="color: black"> build</mat-icon>
+        </div>
+      </button>
+    </div>
+    <div
+      id="droplistt"
+      style="
+        display: none;
+        border-radius: 5px;
+        border-color: #0a66c2;
+        width: 140px;
+        margin-left: 20px;
+        margin-top: 3px;
+      "
+    >
+      <div class="bordered">
+        <a class="dropdown-item" (click)="Periodcomp()" style="color: white">Period</a>
+      </div>
+      <div class="bordered">
+        <a class="dropdown-item" (click)="Roomcomp()" style="color: white">Room</a>
+      </div>
+      <div class="bordered">
+        <a class="dropdown-item"  style="color: white">Action</a>
+      </div>
+    </div>
+    <!-- /////Couses///// -->
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-block btn-round mt-1"
+        routerLink="courses"
+      >
+        <span>Courses</span>
+        <div
+          class="icon icon-round d-flex align-items-center justify-content-center"
+        >
+          <mat-icon style="color: black"> chrome_reader_mode</mat-icon>
+        </div>
+      </button>
+    </div>
+    <!-- /////Reports////// -->
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary btn-block btn-round mt-1"
+        routerLink="roles"
+      >
+        <span>Reports</span>
+        <div
+          class="icon icon-round d-flex align-items-center justify-content-center"
+        >
+          <mat-icon style="color: black"> report_problem</mat-icon>
+        </div>
+      </button>
+    </div>
   </mat-sidenav>
   <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-  <mat-sidenav-container >
-    <mat-toolbar  style="background-color: white" class="animated">
+  <mat-sidenav-container>
+    <mat-toolbar style="background-color: white" class="animated">
       <div class="d-flex">
         <div
           style="background-color: transparent"
@@ -60,9 +138,16 @@
             Exam Schedualing
           </h2>
         </div>
-        <div style="position: absolute; top: 0; right: 0; padding: 5px" *ngIf="gettoken()">
+        <div
+          style="position: absolute; top: 0; right: 0; padding: 5px"
+          *ngIf="gettoken()"
+        >
           <!-- <button type="button" (click)="logout()">Logout</button> -->
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Example icon-button with a menu"
+          >
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">

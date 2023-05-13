@@ -1,0 +1,115 @@
+<div class="cent" style="width: 600px; margin: 10px">
+  <div>
+    <h2 style="font-family: andulas">Permission Table</h2>
+  </div>
+  <div>
+    <table class="tables">
+      <thead>
+        <tr>
+          <th></th>
+          <th>
+            <h3 style="margin-bottom:0px;margin-left:40px">View</h3>
+            <mat-icon style="color: black; margin-left: 45px"
+              >visibility</mat-icon
+            >
+          </th>
+          <th>
+            <h3 style="margin-bottom:0px;margin-left:40px">Edit</h3>
+            <mat-icon style="color: black; margin-left: 45px">edit</mat-icon>
+          </th>
+          <th>
+            <h3 style="margin-bottom:0px;margin-left:40px">Delete</h3>
+            <mat-icon style="color: black; margin-left: 45px">delete</mat-icon>
+          </th>
+          <th>
+            <h3 style="margin-bottom:0px;margin-left:45px">Add</h3>
+            <mat-icon style="color: black; margin-left: 45px">add</mat-icon>
+          </th>
+        </tr>
+      </thead>
+      <!-- //////////// -->
+      <tbody>
+        <tr>
+          <td><h2>User</h2></td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(1)"
+              (change)="checkCheckbox($event, 1)"
+            ></mat-checkbox>
+          </td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(2)"
+              (change)="checkCheckbox($event, 2)"
+            ></mat-checkbox>
+          </td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(3)"
+              (change)="checkCheckbox($event, 3)"
+            ></mat-checkbox>
+          </td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(4)"
+              (change)="checkCheckbox($event, 4)"
+            ></mat-checkbox>
+          </td>
+        </tr>
+        <tr>
+          <td><h2>Dashboard</h2></td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(5)"
+              (change)="checkCheckbox($event, 5)"
+            ></mat-checkbox>
+          </td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(6)"
+              (change)="checkCheckbox($event, 6)"
+            ></mat-checkbox>
+          </td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(7)"
+              (change)="checkCheckbox($event, 7)"
+            ></mat-checkbox>
+          </td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              color="primary"
+              [checked]="permissionArray.includes(8)"
+              (change)="checkCheckbox($event, 8)"
+            ></mat-checkbox>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <button
+      (click)="editper()"
+      class="btn mt-3 mb-2 mb-md-0 btn-primary btn-block"
+      style="background-color: #0a66c2; border-color: #0a66c2;width:500px;margin-left:40px"
+    >
+      <span>Edit Permissions</span>
+
+    </button>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,10 @@
             <h3 class="pt-3 font-weight-bold">Reset Password</h3>
           </div>
           <div class="panel-body pt-3">
-            <form [formGroup]="resetPasswordForm" (ngSubmit)="reset()">
+            <form
+              [formGroup]="resetPasswordForm"
+              (ngSubmit)=" resetbyemail()"
+            >
               <!-- ////////// -->
               <div class="form-group p-3">
                 <div
@@ -53,7 +56,7 @@
               <small
                 *ngIf="
                   resetPasswordForm.controls['confirmPassword'].dirty &&
-                  resetPasswordForm.hasError('required','confirmPassword')
+                  resetPasswordForm.hasError('required', 'confirmPassword')
                 "
                 class="text-danger ml-3"
                 >*Confirm Password Is Required*</small
@@ -86,3 +89,4 @@
     </div>
   </div>
 </div>
+

@@ -1,0 +1,158 @@
+<div style="display: flex; flex-direction: column; height: 75vh">
+  <div style="display: flex; flex-direction: row">
+    <div style="width: 50px">
+      <button
+        style="
+          border: 0;
+          background-color: transparent;
+          color: #0a66c2;
+          font-weight: bolder;
+        "
+        (click)="close()"
+      >
+        <mat-icon style="font-size: xxx-large; height: auto; width: auto"
+          >keyboard_backspace</mat-icon
+        >
+      </button>
+    </div>
+    <div class="center" style="width: 100%">
+      <img
+        src="assets/images/Clock.png"
+        alt="createuser"
+        width="100px"
+        height="100px"
+        style="margin-top: 20px; margin-left: 200px"
+      />
+      <div style="display: flex; margin-right: 200px; width: 100%">
+        <div class="hr">---------------------</div>
+        <div class="mt-2 mr-3">
+          <h1 style="font-family: Andalus; font-size: xxx-large; margin: 0px">
+            Create New Period
+          </h1>
+        </div>
+        <div class="hr">---------------------</div>
+      </div>
+    </div>
+  </div>
+  <!-- //////////// ////// //////Form ////// ////// ////// //////  -->
+
+  <div class="mt-3">
+    <!-- /////////////Name/////////// -->
+    <form
+      [formGroup]="EditPeriodForm"
+      (ngSubmit)="EditPeriod()"
+      style="width: 100%"
+    >
+      <div style="display: flex">
+        <div>
+          <input
+            style="width: 200px; margin-left: 250px"
+            id="shadow"
+            class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+            type="text"
+            placeholder="Period Name"
+            name="periodName"
+            formControlName="periodName"
+          />
+        </div>
+        <div style="margin-top: 18px" class="ml-2">
+          <mat-form-field appearance="fill" style="margin-left: 50px">
+            <mat-label>Date:</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="periodTime"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div style="width: 200px">
+          <mat-form-field
+            class="custom-width"
+            appearance="fill"
+            style="margin-left: 200px; height: 75px; margin-top: 20px"
+          >
+            <mat-label>Starting Time...</mat-label>
+            <select matNativeControl formControlName="timeFrom" required>
+              <option *ngFor="let times of Time" [value]="times.name">
+                {{ times.name }}
+              </option>
+            </select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field
+            appearance="fill"
+            style="margin-left: 350px; height: 75px; margin-top: 20px"
+          >
+            <mat-label>Ending Time...</mat-label>
+            <select matNativeControl formControlName="timeTo" required>
+              <option *ngFor="let times of Time" [value]="times.name">
+                {{ times.name }}
+              </option>
+            </select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div style="display: flex">
+        <mat-form-field
+          appearance="fill"
+          style="margin-left: 350px; height: 75px; margin-top: 20px"
+        >
+          <mat-label>Room Name</mat-label>
+          <select
+            matNativeControl
+            formControlName="roomId"
+            [value]="roomnames"
+            required
+          >
+            <!-- <option *ngFor="let room of Rooms" [value]="room.id">
+                {{ room.name }}
+              </option> -->
+            <option *ngFor="let room of Rooms" [value]="room.name">
+              <p *ngIf="room.name !== roomnames">{{ room.name }}</p>
+            </option>
+          </select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
+          id="fixedbtn"
+        >
+          <span>Update</span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black"> done_outline</mat-icon>
+          </div>
+        </button>
+        <button
+          class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
+          id="fixedbtn"
+          style="left: 5%"
+          type="button"
+          (click)="close()"
+        >
+          <span>Cancle</span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black"> done_outline</mat-icon>
+          </div>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- //////////////////////////// -->
+</div>

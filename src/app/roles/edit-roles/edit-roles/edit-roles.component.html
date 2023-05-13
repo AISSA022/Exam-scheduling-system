@@ -1,0 +1,56 @@
+<div style="width: 600px; margin: 10px; border-radius: 43px">
+  <div class="cent">
+    <div>
+      <h2 style="font-family: Andalus; font-size: xx-large">Edit Role</h2>
+      <hr style="color: black; height: 20px" />
+    </div>
+    <mat-form-field appearance="fill" style="height: 75px; margin-top: 20px">
+      <mat-label>Type:</mat-label>
+      <select [(ngModel)]="userrole" matNativeControl required>
+        <option value="{{ userrole }}">{{ userrole }}</option>
+        <!-- <option *ngFor="let role of roles" [value]="role.id" [disabled]="role.name === userrole" >{{role.name}}</option> -->
+        <option *ngFor="let role of roles" [value]="role.name">
+          <p *ngIf="role.name !== userrole">{{ role.name }}</p>
+        </option>
+      </select>
+      <!-- <select >
+        <option [value]="userrole">{{userrole}}</option>
+        <ng-container *ngFor="let role of roles">
+          <option [value]="role.name" *ngIf="role.name !== userrole">{{role.name}}</option>
+        </ng-container>
+      </select> -->
+    </mat-form-field>
+    <div class="d-flex">
+      <div>
+        <button
+          type="button"
+          class="btn btn-secondary btn-block btn-round mt-1"
+          (click)="editrole()"
+          style="width: 200px"
+        >
+          <span>Edit Role</span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black"> remove_circle</mat-icon>
+          </div>
+        </button>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-secondary btn-block btn-round mt-1"
+          (click)="editper(userroleid)"
+          style="width: 200px; margin-left: 10px"
+        >
+          <span>Edit Permissions </span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black">pan_tool</mat-icon>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

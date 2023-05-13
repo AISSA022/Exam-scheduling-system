@@ -15,7 +15,11 @@ export class ResetPasswordService {
   public SendResetPasswordLink(email: string) {
     return this.http.post<any>(`${this.apiUrl}/${this.urlUsers}/send-reset-email/${email}`, {})
   }
-  public resetpassword(resetpasswordobj: ResetPassword) {
+  public resetpasswordByEmail(resetpasswordobj: ResetPassword) {
     return this.http.post<any>(`${this.apiUrl}/${this.urlUsers}/reset-password`, resetpasswordobj);
+  }
+
+  public resetpassword(email: string) {
+    return this.http.post<any>(`${this.apiUrl}/${this.urlUsers}/send-reset-pass/${email}`,{} );
   }
 }

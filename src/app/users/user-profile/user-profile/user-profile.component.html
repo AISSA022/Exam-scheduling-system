@@ -41,12 +41,14 @@
                 </div>
               </button>
             </div>
-            <div id="droplist" style="display: none; margin-right: 400px">
+            <div id="droplist" style="display: none; margin-right: 400px;">
               <div style="border: 1.5px solid black">
-                <a class="dropdown-item" href="#">Edit Profile</a>
+                <a class="dropdown-item" (click)="EditProfile()">Edit Profile</a>
               </div>
               <div style="border: 1.5px solid black">
-                <a class="dropdown-item" href="#">Change Password</a>
+                <a class="dropdown-item" (click)="sendreset()"
+                  >Change Password</a
+                >
               </div>
               <div style="border: 1.5px solid black">
                 <a class="dropdown-item" href="#">Action</a>
@@ -79,40 +81,46 @@
             <h3 style="color: black">User Details</h3>
           </div>
           <div style="margin-left: 500px">
-            <a routerLink="" style="color: #0a66c2">Edit Profile</a>
+            <a style="color: #0a66c2" routerLink="/edit-profile"
+              >Edit Profile</a
+            >
           </div>
           <div>
             <dt>Email Address</dt>
-            <a class="mt-4" style="color: #0a66c2">Ahi022@gmail.com</a>
+            <a class="mt-4" style="color: #0a66c2">{{ email }}</a>
           </div>
           <div class="mt-3">
             <dt>Phone Number</dt>
-            <a class="mt-4" style="color: #0a66c2">01000000</a>
+            <a class="mt-4" style="color: #0a66c2">{{number}}</a>
           </div>
           <div class="mt-3">
             <dt>AIM ID</dt>
-            <a class="mt-4" style="color: #0a66c2">1101</a>
+            <a class="mt-4" style="color: #0a66c2">{{ userid }}</a>
           </div>
         </div>
       </div>
       <!-- //////// -->
-      <div style="margin-left: 30px;">
-        <div class="profilediv" style="width: 600px;display:block">
+      <div style="margin-left: 30px">
+        <div class="profilediv" style="width: 600px; display: block">
           <h3>Login Activity</h3>
-          <dt class="mt-2" style="color: #0a66c2">Friday, 20 October 2017, 9:02 PM (5 years 177 days)</dt>
+          <dt class="mt-2" style="color: #0a66c2">
+            Friday, 20 October 2017, 9:02 PM (5 years 177 days)
+          </dt>
           <h3 class="mt-4">Last Access</h3>
-          <dt class="mt-2" style="color: #0a66c2">Friday, 20 October 2017, 9:02 PM (5 years 177 days)</dt>
+          <dt class="mt-2" style="color: #0a66c2">
+            Friday, 20 October 2017, 9:02 PM (5 years 177 days)
+          </dt>
         </div>
-        <div class="profilediv" style="display: blockcd;">
-            <div>
-                <h3>Course Details</h3>
-            </div>
-            <div style="color: #0a66c2;">
-                <div>AI</div>
-                <div>Numerical</div>
-                <div>DataBase</div>
-                <div>AI</div>
-            </div>
+        <div class="profilediv" style="display: blockcd">
+          <div>
+            <h3>Course Details</h3>
+          </div>
+          <div style="color: #0a66c2">
+            <div>AI</div>
+            <div>Numerical</div>
+            <div>DataBase</div>
+            <div>AI</div>
+          </div>
         </div>
       </div>
     </div>

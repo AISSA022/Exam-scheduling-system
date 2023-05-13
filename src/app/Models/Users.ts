@@ -14,6 +14,6 @@ export class Usersmodel {
     refreshToken!: string;
     refreshTokenTime!: Date;
     resetPasswordToken!: string;
-    resetPasswordExpiry!: Date
-
+    resetPasswordExpiry!: Date;
+    image!: any;
 }

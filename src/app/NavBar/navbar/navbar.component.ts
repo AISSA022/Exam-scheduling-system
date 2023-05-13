@@ -17,6 +17,7 @@ export class NavbarComponent {
   ///////////////////////////////////////////////////////////////////////
   token: string = "";
   userid!: number;
+  showDiv = false;
   ////////////////////////////////////////////////////////////////////////
   ngOnInit(): void {
 
@@ -28,8 +29,6 @@ export class NavbarComponent {
   ) {
 
     this.token = this.authservice.getToken()!;
-
-
   }
 
 
@@ -44,5 +43,22 @@ export class NavbarComponent {
   navigateToUserProfile() {
     const id = this.authservice.getid()
     this.router.navigate(['users/profile', id])
+  }
+
+  opensetup() {
+    const hello = document.getElementById('droplistt')!;
+    this.showDiv = !this.showDiv;
+
+    if (this.showDiv) {
+      hello.style.display = 'block';
+    } else {
+      hello.style.display = 'none';
+    }
+  }
+  Periodcomp() {
+    this.router.navigate(['period'])
+  }
+  Roomcomp() {
+    this.router.navigate(['room'])
   }
 }

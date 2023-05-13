@@ -15,7 +15,12 @@ import { AppServicesService } from 'src/app/Services/app-services.service';
 })
 
 export class CreateuserComponent implements OnInit {
-
+  roles = [
+    { id: 1, name: 'Admin' },
+    { id: 2, name: 'User' },
+    { id: 3, name: 'Employee' },
+  ];
+  roleid: number | undefined;
   createuserForm!: FormGroup;
   constructor(private snackbar: MatSnackBar, private service: AppServicesService, private formBuilder: FormBuilder, private authservice: AuthService, private router: Router, private matdialog: MatDialog) { }
 
@@ -32,10 +37,12 @@ export class CreateuserComponent implements OnInit {
       birthday: ['', Validators.required],
       status: true,
       loggedIn: false,
-      roleId: 0,
+      roleId: this.roleid,
       refreshToken: '',
-      resetPasswordToken: ''
+      resetPasswordToken: '',
     })
+    this.getrole()
+
   }
   ////////////////////////closedialog/////////////
 
@@ -45,6 +52,7 @@ export class CreateuserComponent implements OnInit {
 
   ////////////////////ADDUSER////////////////////
   adduser() {
+
     this.authservice.register(this.createuserForm.value).subscribe({
       next: (res) => {
         this.matdialog.closeAll();
@@ -66,6 +74,14 @@ export class CreateuserComponent implements OnInit {
       }
     })
   }
-  ////////////////////ADDUSER////////////////////
-
+  ////////////////////////////////////////
+  getrole() {
+    const roleIdControl = this.createuserForm.get('roleId');
+    if (roleIdControl && roleIdControl.value) {
+      const selectedRoleName = roleIdControl.value;
+      console.log(selectedRoleName);
+      this.roleid = this.roles.find(r => r.name === selectedRoleName)?.id;
+      console.log(this.roleid)
+    }
+  }
 }

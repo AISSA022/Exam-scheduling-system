@@ -31,6 +31,17 @@ export class AppServicesService {
   public getId(email: string) {
     return this.http.get<any>(`${this.apiUrl}/${this.urlUsers}/getid/` + email);
   }
+  public getnumber(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/${this.urlUsers}/get-phonenumber/` + id);
+  }
+  public getuseracc(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/${this.urlUsers}/getuserinfo/` + id)
+  }
+
+  public addimage(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${this.urlUsers}/addimage`, formData);
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 

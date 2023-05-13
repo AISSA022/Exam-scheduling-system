@@ -19,7 +19,7 @@ import { AuthService } from '../Services/Auth/auth.service';
 export class UsersComponent implements OnInit {
   @Output() userUpdated = new EventEmitter<Usersmodel[]>();
   /////////////////Table//////////////////
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', "gender", "phoneNumber", "birthday", "status", "loggedIn", "action"];
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', "gender", "phoneNumber", "birthday", "status", "loggedIn",'actions'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -55,6 +55,7 @@ export class UsersComponent implements OnInit {
     this.service.getAllUsers().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
+        console.log(this.dataSource)
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator
       }

@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmPasswordValidators } from 'src/app/Helpers/confirm-password.validator';
 import { ResetPassword } from 'src/app/Models/reset-password-model';
+import { AuthService } from 'src/app/Services/Auth/auth.service';
 import { ResetPasswordService } from 'src/app/Services/Resetpass/reset-password.service';
 
 @Component({
@@ -20,25 +21,32 @@ export class ResetPassComponent implements OnInit {
 
 
   //////////////////////////////////////////////////////////////////////
-  constructor(private router: Router, private fb: FormBuilder, private activatedRoue: ActivatedRoute, private resetService: ResetPasswordService, private snackbar: MatSnackBar) { }
+  constructor(private router: Router,
+    private fb: FormBuilder,
+    private activatedRoue: ActivatedRoute,
+    private resetService: ResetPasswordService,
+    private snackbar: MatSnackBar,) { }
   //////////////////////////////////////////////////////////////////////
   ngOnInit() {
+
+    //////////////////////////////////////////
     this.resetPasswordForm = this.fb.group({
       password: [null, [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     }, {
       validator: ConfirmPasswordValidators("password", "confirmPassword")
     });
+    //////////////////////////////////////////////////////////////
     this.activatedRoue.queryParams.subscribe(val => {
       this.emailToReset = val['email'];
       let uriToken = val['code'];
       this.emailToken = uriToken.replace(/ /g, '+');
-      console.log(this.emailToken)
     })
   }
 
   ///////////////////////////////////////////////////////////////////////
-  reset() {
+
+  resetbyemail() {
     if (this.resetPasswordForm.valid) {
       this.resetPasswordObj.email = this.emailToReset;
       this.resetPasswordObj.newPassword = this.resetPasswordForm.value.password;
@@ -51,7 +59,7 @@ export class ResetPassComponent implements OnInit {
       console.log(this.resetPasswordObj.emailToken);
 
       //////
-      this.resetService.resetpassword(this.resetPasswordObj)
+      this.resetService.resetpasswordByEmail(this.resetPasswordObj)
         .subscribe({
           next: (res) => {
             this.snackbar.open("Password Reset Successfully", 'Close', {
@@ -77,4 +85,7 @@ export class ResetPassComponent implements OnInit {
     //   ValidateForm.validateAllFormFields(this.resetPasswordForm);
     // }
   }
+  ///////////////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////////////
 }

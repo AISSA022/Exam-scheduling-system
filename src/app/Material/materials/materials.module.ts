@@ -8,6 +8,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
+import { MatCheckboxModule } from '@angular/material/checkbox';
 const MaterialComponents = [
   MatButtonModule,
   MatToolbarModule,
@@ -17,7 +18,8 @@ const MaterialComponents = [
   MatPaginatorModule,
   MatSortModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatCheckboxModule
 ]
 
 

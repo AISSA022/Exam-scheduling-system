@@ -1,0 +1,239 @@
+<div style="width: 150vh; height: 95vh">
+  <div style="display: flex; flex-direction: row">
+    <div
+      class="center"
+      style="width: 100%; margin-top: 20px; margin-left: 220px"
+    >
+      <div style="display: flex; margin-right: 200px; width: 100%">
+        <div class="hr">---------------------</div>
+        <div class="mt-2 mr-3">
+          <h1 style="font-family: Andalus; font-size: xxx-large; margin: 0px">
+            Create New Room
+          </h1>
+        </div>
+        <div class="hr">---------------------</div>
+      </div>
+    </div>
+  </div>
+  <!-- /////////////////////////////////////////////Form///////////////////////////////////////////////////// -->
+  <div class="d-flex">
+    <div style="margin-top: 27px; margin-left: 30px">
+      <img
+        src="../../../../../../assets/images/class.png"
+        width="300px"
+        height="510px"
+        style="border-top-left-radius: 10px; border-bottom-left-radius: 10px"
+      />
+    </div>
+    <div
+      class="borderr"
+      style="
+        width: 100vh;
+        margin-left: 2px;
+        margin-top: 28px;
+        margin-right: 10px;
+      "
+    >
+      <form [formGroup]="createRoomForm" (ngSubmit)="CreateRoom()">
+        <div class="d-flex" style="font-size: x-large; margin-bottom: 10px">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <mat-icon
+              style="
+                color: #0a66c2;
+                margin-top: 30px;
+                font-size: xx-large;
+                width: auto;
+                height: auto;
+              "
+              >assessment</mat-icon
+            >
+          </div>
+          <div class="d-flex" style="margin-top: 30px">
+            <span style="margin-top: 10px">|</span>
+            <span
+              class="borderinput"
+              style="border-radius: 20px; height: 40px; margin-left: 5px"
+              ><h2 style="margin: 3px">Room Name:</h2></span
+            >
+          </div>
+
+          <div style="margin-top: 5px; margin-left: 80px">
+            <input
+              style="width: 200px"
+              id="shadow"
+              class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+              type="text"
+              placeholder="Room Name"
+              name="roomName"
+              formControlName="roomName"
+            />
+          </div>
+        </div>
+        <!-- ///////////////////////////// -->
+        <div class="d-flex" style="font-size: x-large; margin-bottom: 10px">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <mat-icon
+              style="
+                color: #0a66c2;
+                margin-top: 30px;
+                font-size: xx-large;
+                width: auto;
+                height: auto;
+              "
+              >receipt</mat-icon
+            >
+          </div>
+          <div class="d-flex" style="margin-top: 30px">
+            <span style="margin-top: 10px">|</span>
+            <span
+              class="borderinput"
+              style="border-radius: 20px; height: 40px; margin-left: 5px"
+              ><h2 style="margin: 3px">Number Of Seats:</h2></span
+            >
+          </div>
+
+          <div style="margin-top: 5px; margin-left: 40px">
+            <input
+              style="width: 200px"
+              id="shadow"
+              class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+              type="text"
+              placeholder="..."
+              name="seatNumber"
+              formControlName="seatNumber"
+            />
+            <div style="margin-top: 2px;margin-bottom:0px"
+              *ngIf="createRoomForm?.get('seatNumber')?.hasError('onlyNumbers')"
+            >
+              <h4 style="color:red;font-size:xx-small ">Please Enter Only Numbers</h4> 
+            </div>
+          </div>
+        </div>
+        <!-- ///////////////////////////// -->
+        <div class="d-flex" style="font-size: x-large; margin-bottom: 10px">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <mat-icon
+              style="
+                color: #0a66c2;
+                margin-top: 30px;
+                font-size: xx-large;
+                width: auto;
+                height: auto;
+              "
+              >import_export</mat-icon
+            >
+          </div>
+          <div class="d-flex" style="margin-top: 30px">
+            <span style="margin-top: 10px">|</span>
+            <span
+              class="borderinput"
+              style="border-radius: 20px; height: 40px; margin-left: 5px"
+              ><h2 style="margin: 3px">Columns:</h2></span
+            >
+          </div>
+
+          <div style="margin-top: 5px; margin-left: 117px">
+            <input
+              style="width: 200px"
+              id="shadow"
+              class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+              type="text"
+              placeholder="Number Of Columns"
+              name="columns"
+              formControlName="columns"
+            />
+            <div style="margin-top: 2px;margin-bottom:0px"
+              *ngIf="createRoomForm?.get('columns')?.hasError('onlyNumbers')"
+            >
+              <h4 style="color:red;font-size:xx-small ">Please Enter Only Numbers</h4> 
+            </div>
+          </div>
+        </div>
+        <!-- ///////////////////////////// -->
+        <div class="d-flex" style="font-size: x-large; margin-bottom: 10px">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <mat-icon
+              style="
+                color: #0a66c2;
+                margin-top: 30px;
+                font-size: xx-large;
+                width: auto;
+                height: auto;
+              "
+              >trending_flat</mat-icon
+            >
+          </div>
+          <div class="d-flex" style="margin-top: 30px">
+            <span style="margin-top: 10px">|</span>
+            <span
+              class="borderinput"
+              style="border-radius: 20px; height: 40px; margin-left: 5px"
+              ><h2 style="margin: 3px">Row:</h2></span
+            >
+          </div>
+
+          <div style="margin-top: 5px; margin-left: 157px">
+            <input
+              style="width: 200px"
+              id="shadow"
+              class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+              type="text"
+              placeholder="Number Of Rows"
+              name="row"
+              formControlName="row"
+            />
+            <div style="margin-top: 2px;margin-bottom:0px"
+              *ngIf="createRoomForm?.get('row')?.hasError('onlyNumbers')"
+            >
+              <h4 style="color:red;font-size:xx-small ">Please Enter Only Numbers</h4> 
+            </div>
+          </div>
+        </div>
+        <!-- ///////////////////////////// -->
+        <div class="d-flex" style="font-size: x-large; margin-bottom: 10px">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <mat-icon
+              style="
+                color: #0a66c2;
+                margin-top: 30px;
+                font-size: xx-large;
+                width: auto;
+                height: auto;
+              "
+              >business</mat-icon
+            >
+          </div>
+          <div class="d-flex" style="margin-top: 30px">
+            <span style="margin-top: 10px">|</span>
+            <span
+              class="borderinput"
+              style="border-radius: 20px; height: 40px; margin-left: 5px"
+              ><h2 style="margin: 3px">Building:</h2></span
+            >
+          </div>
+
+          <div style="margin-top: 5px; margin-left: 120px">
+            <input
+              style="width: 200px"
+              id="shadow"
+              class="btn mb-2 mb-md-0 btn-round btn-outline btn-block"
+              type="text"
+              placeholder="..."
+              name="building"
+              formControlName="building"
+            />
+          </div>
+        </div>
+        <div>
+          <button
+            type="submit"
+            class="btn mt-4 mb-3 mb-md-0 btn-primary btn-block"
+            style="background-color: #0a66c2; border-color: #0a66c2"
+          >
+            <span>Create Room</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

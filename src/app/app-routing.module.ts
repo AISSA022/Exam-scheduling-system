@@ -8,7 +8,12 @@ import { UsersComponent } from './users/users.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './Services/Auth/auth.guard';
 import { UserProfileComponent } from './users/user-profile/user-profile/user-profile.component';
-import {ResetPassComponent} from './users/reset-pass/reset-pass/reset-pass.component';
+import { ResetPassComponent } from './users/reset-pass/reset-pass/reset-pass.component';
+import { RolesComponent } from './roles/roles.component';
+import { EditProfileComponent } from './users/user-profile/edit-profile/edit-profile/edit-profile.component';
+import { RoomsComponent } from './Setup/Rooms/rooms/rooms.component';
+import { PeriodComponent } from './Setup/Period/period/period.component';
+import { CoursesComponent } from './Courses/courses/courses.component';
 
 
 const routes: Routes = [
@@ -20,6 +25,11 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "users/profile/:id", component: UserProfileComponent },
   { path: "reset", component: ResetPassComponent },
+  { path: "roles", component: RolesComponent },
+  { path: "edit-profile", component: EditProfileComponent },
+  { path: "room", component: RoomsComponent },
+  { path: "period", component: PeriodComponent },
+  { path: "courses", component: CoursesComponent },
 
 ];
 
