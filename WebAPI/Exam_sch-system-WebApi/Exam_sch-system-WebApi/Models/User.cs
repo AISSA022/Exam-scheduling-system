@@ -40,4 +40,6 @@ public partial class User
     public byte[]? Image { get; set; }
 
     public virtual ICollection<Role> Roles { get; } = new List<Role>();
+
+    public virtual ICollection<StudentCourse> StudentCourses { get; } = new List<StudentCourse>();
 }

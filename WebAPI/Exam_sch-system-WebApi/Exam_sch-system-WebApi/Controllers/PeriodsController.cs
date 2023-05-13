@@ -54,13 +54,6 @@ namespace Exam_sch_system_WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPeriod(int id, Period period)
         {
-            if (id != period.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(period).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -77,11 +70,39 @@ namespace Exam_sch_system_WebApi.Controllers
                 }
             }
 
+            var periodss = _context.Periods.FirstOrDefault(u => u.Id == id);
+            ///////////////
+            var oldroomid = periodss.RoomId;
+            var periods = _context.RoomPeriods.FirstOrDefault(u => u.PeriodId == id && u.RoomId == oldroomid);
+            if (periods == null)
+            {
+                return NotFound();
+            }
+            periods.RoomId = period.RoomId;
+            periods.PeriodId = id;
+            _context.SaveChanges();
+            // If the user doesn't exist, return a 404 Not Found
+            if (periodss == null)
+            {
+                return NotFound();
+            }
+
+            // Update the user's properties with the new values
+            periodss.PeriodName = period.PeriodName;
+            periodss.PeriodTime = period.PeriodTime;
+            periodss.TimeFrom = period.TimeFrom;
+            periodss.TimeTo = period.TimeTo;
+            periodss.RoomId = period.RoomId;
+
+            // Save the changes to the database
+            _context.SaveChanges();
+
+
+            // Return a 204 No Content response
             return NoContent();
         }
 
-        // POST: api/Periods
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
         public async Task<ActionResult<Period>> PostPeriod(Period period)
         {
@@ -89,18 +110,26 @@ namespace Exam_sch_system_WebApi.Controllers
           {
               return Problem("Entity set 'ExamAttendanceSystemContext.Periods'  is null.");
           }
-              var periodid=period.Id;
-            var roomid=period.RoomId;
+
+            _context.Periods.Add(period);
+            await _context.SaveChangesAsync();
+
+            var periodid = period.Id;
+            var roomid = period.RoomId;
             var roomperoid = new RoomPeriod
             {
+                Id=0,
                 RoomId = roomid,
                 PeriodId = periodid,
             };
             _context.RoomPeriods.Add(roomperoid);
-            _context.Periods.Add(period);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPeriod", new { id = period.Id }, period);
+            return Ok(new
+            {
+                periodid,
+                roomid,
+            });
         }
 
         // DELETE: api/Periods/5
@@ -116,7 +145,14 @@ namespace Exam_sch_system_WebApi.Controllers
             {
                 return NotFound();
             }
-
+            var periodid= period.Id;
+            var  roomid=period.RoomId;
+            var periodss = _context.RoomPeriods.FirstOrDefault(u => u.PeriodId == periodid && u.RoomId==roomid);
+            if (periodss == null)
+            {
+                return NotFound();
+            }
+            _context.RoomPeriods.Remove(periodss);
             _context.Periods.Remove(period);
             await _context.SaveChangesAsync();
 
@@ -127,21 +163,7 @@ namespace Exam_sch_system_WebApi.Controllers
         {
             return (_context.Periods?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-        [HttpGet("GetRoomNameByPeriodId/{periodId}")]
-        public async Task<ActionResult<string>> GetRoomNameByPeriodId(int periodId)
-        {
-            var roomName = await _context.RoomPeriods
-                .Where(rp => rp.PeriodId == periodId)
-                .Select(rp => rp.Room.RoomName)
-                .FirstOrDefaultAsync();
-
-            if (roomName == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(roomName);
-        }
+       
 
     }
 }

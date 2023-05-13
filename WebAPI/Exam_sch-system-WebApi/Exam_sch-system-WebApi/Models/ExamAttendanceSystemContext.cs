@@ -15,6 +15,8 @@ public partial class ExamAttendanceSystemContext : DbContext
     {
     }
 
+    public virtual DbSet<Course> Courses { get; set; }
+
     public virtual DbSet<Period> Periods { get; set; }
 
     public virtual DbSet<Permission> Permissions { get; set; }
@@ -27,14 +29,33 @@ public partial class ExamAttendanceSystemContext : DbContext
 
     public virtual DbSet<RoomPeriod> RoomPeriods { get; set; }
 
+    public virtual DbSet<StudentCourse> StudentCourses { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;");
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Course>(entity =>
+        {
+            entity.ToTable("Course");
+
+            entity.HasIndex(e => e.CourseCode, "UC_Courses_CourseCode").IsUnique();
+
+            entity.Property(e => e.CourseCode)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.CourseName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Instructor)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Section)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Period>(entity =>
         {
             entity.ToTable("Period");
@@ -42,7 +63,7 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.PeriodName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.PeriodTime).HasColumnType("datetime");
+            entity.Property(e => e.PeriodTime).HasColumnType("date");
             entity.Property(e => e.TimeFrom).HasColumnType("text");
             entity.Property(e => e.TimeTo).HasColumnType("text");
         });
@@ -101,8 +122,6 @@ public partial class ExamAttendanceSystemContext : DbContext
 
         modelBuilder.Entity<RoomPeriod>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__RoomPeri__3214EC07964CEC5D");
-
             entity.HasOne(d => d.Period).WithMany(p => p.RoomPeriods)
                 .HasForeignKey(d => d.PeriodId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -112,6 +131,21 @@ public partial class ExamAttendanceSystemContext : DbContext
                 .HasForeignKey(d => d.RoomId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RoomPeriods_Room");
+        });
+
+        modelBuilder.Entity<StudentCourse>(entity =>
+        {
+            entity.ToTable("StudentCourse");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.StudentCourses)
+                .HasForeignKey(d => d.CourseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StudentCourse_Course");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentCourses)
+                .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StudentCourse_User");
         });
 
         modelBuilder.Entity<User>(entity =>

@@ -123,7 +123,24 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return NoContent();
         }
+        [HttpGet("GetRoomName/{id}")]
+        public async Task<IActionResult> GetRoomName(int id)
+        {
+            if (_context.Rooms == null)
+            {
+                return NotFound();
+            }
+            var room = await _context.Rooms.FindAsync(id);
+            if (room == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(new
+            {
+                roomName=room.RoomName
+            });
+        }
         private bool RoomExists(int id)
         {
             return (_context.Rooms?.Any(e => e.RoomId == id)).GetValueOrDefault();
