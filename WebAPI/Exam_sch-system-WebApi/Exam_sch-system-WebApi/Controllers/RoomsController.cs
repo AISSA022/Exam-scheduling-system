@@ -20,7 +20,6 @@ namespace Exam_sch_system_WebApi.Controllers
             _context = context;
         }
 
-        // GET: api/Rooms
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
@@ -31,7 +30,6 @@ namespace Exam_sch_system_WebApi.Controllers
             return await _context.Rooms.ToListAsync();
         }
 
-        // GET: api/Rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> GetRoom(int id)
         {
@@ -104,7 +102,6 @@ namespace Exam_sch_system_WebApi.Controllers
             return CreatedAtAction("GetRoom", new { id = room.RoomId }, room);
         }
 
-        // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(int id)
         {

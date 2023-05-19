@@ -106,7 +106,35 @@ namespace Exam_sch_system_WebApi.Controllers
             user.Status = updatedUser.Status;
             user.LoggedIn = updatedUser.LoggedIn;
             user.RoleId = updatedUser.RoleId;
-
+            _context.SaveChanges();
+            /*
+                        var updaterole =_context.Roles.FirstOrDefault(u => u.UserId == id);
+                        if (updaterole != null)
+                        {
+                            return NotFound();
+                        }
+                        updaterole.RoleId=updatedUser.RoleId;*/
+            var updaterole = _context.Roles.FirstOrDefault(u => u.UserId == id);
+            if (updaterole == null)
+            {
+                return NotFound();
+            }
+            var rolename = "";
+            if (updatedUser.RoleId == 1)
+            {
+                rolename = "Admin";
+            }
+            if (updatedUser.RoleId == 2)
+            {
+                rolename = "Emp";
+            }
+            if (updatedUser.RoleId == 3)
+            {
+                rolename = "User";
+            }
+            updaterole.RoleId = updatedUser.RoleId;
+            updaterole.RoleName = rolename;
+            _context.SaveChanges();
             // Save the changes to the database
             _context.SaveChanges();
 
@@ -133,6 +161,13 @@ namespace Exam_sch_system_WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
+            var role=_context.Roles.Where(u=>u.UserId == id).FirstOrDefault();
+            if (role == null)
+            {
+                return NotFound();
+            }
+            _context.Roles.Remove(role);
+            await _context.SaveChangesAsync();
             if (_context.Users == null)
             {
                 return NotFound();
@@ -337,7 +372,15 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return NoContent();
         }
-
+        [HttpGet("GetStudents")]
+        public async Task<ActionResult<IEnumerable<User>>> GetStudents()
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            return await _context.Users.Where(u=>u.RoleId==3).ToListAsync();
+        }
         /**/
     }
 

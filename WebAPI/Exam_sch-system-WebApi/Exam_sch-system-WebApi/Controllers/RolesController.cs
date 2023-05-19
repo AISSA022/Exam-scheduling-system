@@ -29,26 +29,38 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             return Ok(user.RoleId);
         }
-        [HttpPut("Edit-Role/{id}/{roleid}")]
-        public async Task<ActionResult<User>> EditRole(int id,int roleid)
+        [HttpPut("Edit-Role/{userid}/{roleid}")]
+        public async Task<ActionResult<User>> EditRole(int userid,int roleid)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var user = _context.Users.FirstOrDefault(u=>u.Id==userid);
+            if(user == null)
             {
                 return NotFound();
             }
-
-            var role = await _context.Roles.FindAsync(roleid);
-            if (role == null)
+            user.RoleId= roleid;
+            _context.SaveChanges();
+            /////////////////
+            var updaterole =_context.Roles.FirstOrDefault(u=>u.UserId==userid);
+            if (updaterole == null)
             {
-                return BadRequest("Invalid role ID.");
+                return NotFound();
             }
-
-            user.RoleId = roleid;
-
-            _context.Update(user);
-            await _context.SaveChangesAsync();
-
+            var rolename = "";
+            if (roleid == 1)
+            {
+                rolename = "Admin";
+            }
+            if (roleid == 2)
+            {
+                rolename = "Emp";
+            }
+            if (roleid == 3)
+            {
+                rolename = "User";
+            }
+            updaterole.RoleId = roleid;
+            updaterole.RoleName=rolename;
+            _context.SaveChanges();
             return Ok();
         }
         ////////////////////////////////////////////////////////////////

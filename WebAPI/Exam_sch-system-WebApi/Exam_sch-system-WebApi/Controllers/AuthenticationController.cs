@@ -54,7 +54,7 @@ namespace Exam_sch_system_WebApi.Controllers
             user.RefreshToken = newRefreshToken;
             user.RefreshTokenTime = DateTime.Now.AddDays(5);
             await _context.SaveChangesAsync();
-
+            
             return Ok(new TokenApiDto()
             {
                 AccessToken= newAccessToken,
@@ -92,6 +92,28 @@ namespace Exam_sch_system_WebApi.Controllers
             user.ResetPasswordExpiry=DateTime.Now.AddMinutes(5);
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+            ///////////////////////
+            var rolename = "";
+            if(user.RoleId == 1)
+            {
+                rolename = "Admin";
+            }
+            if (user.RoleId == 2)
+            {
+                rolename="Emp";
+            }
+            if(user.RoleId == 3)
+            {
+                rolename = "User";
+            }
+            var newrole = new Role
+            {
+                RoleId=user.RoleId,
+                RoleName= rolename,
+                UserId= user.Id,
+            };
+            _context.Roles.Add(newrole);
+            _context.SaveChanges();
             return Ok(new
             {
                 errMessage = "User Registered!"

@@ -20,7 +20,6 @@ namespace Exam_sch_system_WebApi.Controllers
             _context = context;
         }
 
-        // GET: api/Courses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
@@ -31,7 +30,7 @@ namespace Exam_sch_system_WebApi.Controllers
             return await _context.Courses.ToListAsync();
         }
 
-        // GET: api/Courses/5
+     
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
@@ -49,18 +48,10 @@ namespace Exam_sch_system_WebApi.Controllers
             return course;
         }
 
-        // PUT: api/Courses/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, Course course)
         {
-            if (id != course.CourseId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(course).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -77,11 +68,28 @@ namespace Exam_sch_system_WebApi.Controllers
                 }
             }
 
+            var courses = _context.Courses.FirstOrDefault(u => u.CourseId == id);
+
+            // If the user doesn't exist, return a 404 Not Found
+            if (courses == null)
+            {
+                return NotFound();
+            }
+
+            // Update the user's properties with the new values
+            courses.CourseName=course.CourseName;
+            courses.CourseCode=course.CourseCode;
+            courses.Section=course.Section;
+            courses.Instructor=course.Instructor;
+
+            // Save the changes to the database
+            _context.SaveChanges();
+
+            // Return a 204 No Content response
             return NoContent();
         }
 
-        // POST: api/Courses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
@@ -95,7 +103,6 @@ namespace Exam_sch_system_WebApi.Controllers
             return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
         }
 
-        // DELETE: api/Courses/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {

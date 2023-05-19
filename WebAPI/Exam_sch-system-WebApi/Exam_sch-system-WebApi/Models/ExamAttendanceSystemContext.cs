@@ -29,11 +29,14 @@ public partial class ExamAttendanceSystemContext : DbContext
 
     public virtual DbSet<RoomPeriod> RoomPeriods { get; set; }
 
-    public virtual DbSet<StudentCourse> StudentCourses { get; set; }
+    public virtual DbSet<Semester> Semesters { get; set; }
+
+    public virtual DbSet<SemesterCourse> SemesterCourses { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Course>(entity =>
@@ -83,7 +86,6 @@ public partial class ExamAttendanceSystemContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.Property(e => e.RoleId).ValueGeneratedNever();
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -133,19 +135,31 @@ public partial class ExamAttendanceSystemContext : DbContext
                 .HasConstraintName("FK_RoomPeriods_Room");
         });
 
-        modelBuilder.Entity<StudentCourse>(entity =>
+        modelBuilder.Entity<Semester>(entity =>
         {
-            entity.ToTable("StudentCourse");
+            entity.Property(e => e.SemesterName).IsUnicode(false);
+        });
 
-            entity.HasOne(d => d.Course).WithMany(p => p.StudentCourses)
+        modelBuilder.Entity<SemesterCourse>(entity =>
+        {
+            entity.HasKey(e => e.SemesterCourseId).HasName("PK_SemesterCourse'");
+
+            entity.ToTable("SemesterCourse");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.SemesterCourses)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StudentCourse_Course");
+                .HasConstraintName("FK_SemesterCourse_Course");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentCourses)
+            entity.HasOne(d => d.Semester).WithMany(p => p.SemesterCourses)
+                .HasForeignKey(d => d.SemesterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SemesterCourse_Semesters");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.SemesterCourses)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StudentCourse_User");
+                .HasConstraintName("FK_SemesterCourse_User");
         });
 
         modelBuilder.Entity<User>(entity =>
