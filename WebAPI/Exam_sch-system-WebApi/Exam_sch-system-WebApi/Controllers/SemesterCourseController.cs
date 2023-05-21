@@ -3,6 +3,7 @@ using Exam_sch_system_WebApi.Models.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Exam_sch_system_WebApi.Controllers
 {
@@ -28,7 +29,7 @@ namespace Exam_sch_system_WebApi.Controllers
                     c.CourseName,
                     c.CourseCode,
                     c.Section,
-                    c.Instructor
+                    c.Instructor,
                 })
                 .ToListAsync();
 
@@ -58,28 +59,30 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             return students;
         }
-        [HttpPost("AddStudentsToCourse/{semesterId}/{courseId}")]
-        public async Task<IActionResult> AddStudentsToCourse(int[] studentIds, int semesterId, int courseId)
+        [HttpPost("AddStudentsToCourse/{semesterCourseId}")]
+        public async Task<IActionResult> AddStudentsToCourse(int[] studentIds, int semesterCourseId)
         {
             try
-            {
+            {   
                 // Remove old records for the specified semester and course
-                var oldRecords = _context.SemesterCourses
-                    .Where(sc => sc.SemesterId == semesterId && sc.CourseId == courseId);
 
-                _context.SemesterCourses.RemoveRange(oldRecords);
+/*                var oldRecords = _context.StudentSemesters
+                    .Where();*/
+
+                var sc = _context.StudentSemesters.Where(x=>x.SemesterCourseId == semesterCourseId);
+
+                _context.StudentSemesters.RemoveRange(sc);
 
                 // Add new records for the specified students, semester, and course
                 foreach (var studentId in studentIds)
                 {
-                    var studentCourse = new SemesterCourse
+                    var studentCourse = new StudentSemester
                     {
                         StudentId = studentId,
-                        SemesterId = semesterId,
-                        CourseId = courseId
+                        SemesterCourseId = semesterCourseId,
                     };
 
-                    _context.SemesterCourses.Add(studentCourse);
+                    _context.StudentSemesters.Add(studentCourse);
                 }
 
                 await _context.SaveChangesAsync();
@@ -94,24 +97,54 @@ namespace Exam_sch_system_WebApi.Controllers
         }
         //////////////////////////////////////////////////////////////////
 
-        [HttpGet("GetStudentsInCourse/{semesterId}/{CourseId}")]
-        public async Task<ActionResult<IEnumerable<StudentOfTheCourseDTO>>> GetStudentsInCourse(int semesterId,int CourseId)
+        [HttpGet("GetStudentsInCourse/{semesterCourseId}")]
+        public async Task<ActionResult> GetStudentsInCourse(int semesterCourseId)
         {
-            
-            var students = await _context.SemesterCourses.Where(r => r.SemesterId == semesterId && r.CourseId==CourseId).Select(n => new StudentOfTheCourseDTO
-            {
-                SemesterId=n.SemesterId,
-                CourseId=n.CourseId,
-                StudentId=n.StudentId,
-                studentName=n.Student.FirstName,
-                studentLastName=n.Student.LastName
 
-            }).ToListAsync();
-            if (students == null || students.Count() == 0)
+            var courses = _context.StudentSemesters.Where(c => c.SemesterCourseId == semesterCourseId).Include(x => x.Student).Include(x=>x.SemesterCourse).ToList();
+
+            List<int>  user = new List<int>();
+
+            foreach (var course in courses)
             {
-                return NotFound();
+
+                user.Add( course.Student.Id
+                );
             }
-            return students;
+
+            
+            return Ok(JsonConvert.SerializeObject(user.ToArray(), Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        }));
+        }
+        [HttpGet("GetStudentsDetails/{semesterCourseId}")]
+        public async Task<ActionResult> GetStudentsDetails(int semesterCourseId)
+        {
+
+            var courses = _context.StudentSemesters.Where(c => c.SemesterCourseId == semesterCourseId).Include(x => x.Student).Include(x => x.SemesterCourse).ToList();
+
+            List<StudentDTO> user = new List<StudentDTO>();
+
+            foreach (var course in courses)
+            {
+
+                user.Add(new StudentDTO
+                {
+                    Id=course.Student.Id,
+                    FirstName=course.Student.FirstName,
+                    LastName=course.Student.LastName
+                }
+                );
+            }
+
+
+            return Ok(JsonConvert.SerializeObject(user, Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        }));
         }
     }
 }

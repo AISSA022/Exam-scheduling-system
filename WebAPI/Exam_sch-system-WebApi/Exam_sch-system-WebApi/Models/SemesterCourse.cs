@@ -9,13 +9,15 @@ public partial class SemesterCourse
 
     public int CourseId { get; set; }
 
-    public int StudentId { get; set; }
-
     public int SemesterId { get; set; }
+
+    public int RoomPeriodId { get; set; }
 
     public virtual Course Course { get; set; } = null!;
 
+    public virtual RoomPeriod RoomPeriod { get; set; } = null!;
+
     public virtual Semester Semester { get; set; } = null!;
 
-    public virtual User Student { get; set; } = null!;
+    public virtual ICollection<StudentSemester> StudentSemesters { get; } = new List<StudentSemester>();
 }

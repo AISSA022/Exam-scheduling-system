@@ -89,7 +89,7 @@ namespace Exam_sch_system_WebApi.Controllers
 
             // Update the user's properties with the new values
             periodss.PeriodName = period.PeriodName;
-            periodss.PeriodTime = period.PeriodTime;
+            periodss.DayId = period.DayId;
             periodss.TimeFrom = period.TimeFrom;
             periodss.TimeTo = period.TimeTo;
             periodss.RoomId = period.RoomId;
@@ -121,6 +121,7 @@ namespace Exam_sch_system_WebApi.Controllers
                 Id=0,
                 RoomId = roomid,
                 PeriodId = periodid,
+
             };
             _context.RoomPeriods.Add(roomperoid);
             await _context.SaveChangesAsync();

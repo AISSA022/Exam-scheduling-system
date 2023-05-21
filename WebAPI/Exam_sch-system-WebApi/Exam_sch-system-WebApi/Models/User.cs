@@ -41,5 +41,5 @@ public partial class User
 
     public virtual ICollection<Role> Roles { get; } = new List<Role>();
 
-    public virtual ICollection<SemesterCourse> SemesterCourses { get; } = new List<SemesterCourse>();
+    public virtual ICollection<StudentSemester> StudentSemesters { get; } = new List<StudentSemester>();
 }

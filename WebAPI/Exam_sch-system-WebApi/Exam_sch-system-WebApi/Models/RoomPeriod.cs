@@ -14,4 +14,6 @@ public partial class RoomPeriod
     public virtual Period Period { get; set; } = null!;
 
     public virtual Room Room { get; set; } = null!;
+
+    public virtual ICollection<SemesterCourse> SemesterCourses { get; } = new List<SemesterCourse>();
 }

@@ -1,7 +1,12 @@
 ﻿using Exam_sch_system_WebApi.Models;
+using Exam_sch_system_WebApi.Models.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+using System.Data;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Exam_sch_system_WebApi.Controllers
 {
@@ -10,18 +15,108 @@ namespace Exam_sch_system_WebApi.Controllers
     public class StoredProcedureController : ControllerBase
     {
         private readonly ExamAttendanceSystemContext _context;
-
-        public StoredProcedureController(ExamAttendanceSystemContext context)
+        private readonly IConfiguration _configuration;
+        public StoredProcedureController(ExamAttendanceSystemContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
-        [HttpGet("GetRoomName")]
-        public IActionResult GetRoomNameByPeriodId()
+
+
+
+
+        [HttpGet("GetStudentsReferToSemesterCourses/{semesterId}")]
+        public ActionResult<IEnumerable<SemesterCoursesRoom>> GetStudentsReferToSemesterCourses(int semesterId)
         {
-            var rooms = _context.Rooms.FromSqlInterpolated($"EXEC GetRoomNameByPeriodId").ToList();
-            return Ok(rooms);
+            List<SemesterCoursesRoom> semesterCourses = new List<SemesterCoursesRoom>();
+
+            using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
+            {
+                using (SqlCommand command = new SqlCommand("GetStudentsReferToSemesterCourses", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@SemesterId", semesterId);
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            
+                            var courseId = reader.GetInt32(reader.GetOrdinal("CourseId"));
+                            var courseName = reader.GetString(reader.GetOrdinal("CourseName"));
+                            var courseCode = reader.GetString(reader.GetOrdinal("CourseCode"));
+                            var section = reader.GetString(reader.GetOrdinal("Section"));
+                            var instructor = reader.GetString(reader.GetOrdinal("Instructor"));
+                            var roomName = reader.GetString(reader.GetOrdinal("RoomName"));
+                            var periodName = reader.GetString(reader.GetOrdinal("PeriodName"));
+                            var semesterCourseId = reader.GetInt32(reader.GetOrdinal("SemesterCourseId"));
+                            // Retrieve other relevant columns as needed
+
+                            var semesterCourse = new SemesterCoursesRoom
+                            {
+                                CourseId = courseId,
+                                CourseName = courseName,
+                                CourseCode = courseCode,
+                                Section = section,
+                                Instructor = instructor,
+                                RoomName = roomName,
+                                PeriodName = periodName,
+                                SemesterCourseId = semesterCourseId
+                            };
+
+                            semesterCourses.Add(semesterCourse);
+                        }
+                    }
+                }
+            }
+            
+            return semesterCourses;
         }
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        [HttpGet("GetRoomPeriod")]
+        public ActionResult<IEnumerable<RoomPeriodDTO>> GetRoomPeriod()
+        {
+            List<RoomPeriodDTO> RoomPeriodd = new List<RoomPeriodDTO>();
+
+            using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
+            {
+                using (SqlCommand command = new SqlCommand("GetRoomPeriod", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var periodId = reader.GetInt32(reader.GetOrdinal("PeriodId"));
+                            var periodName = reader.GetString(reader.GetOrdinal("PeriodName"));
+                            var dayTime = reader.GetDateTime(reader.GetOrdinal("DayTime"));
+                            var timeFrom = reader.GetString(reader.GetOrdinal("TimeFrom"));
+                            var timeTo = reader.GetString(reader.GetOrdinal("TimeTo"));
+                            var roomName = reader.GetString(reader.GetOrdinal("RoomName"));
+
+
+                            var roompp = new RoomPeriodDTO
+                            {
+                               PeriodId=periodId,
+                               PeriodName=periodName,
+                               TimeFrom=timeFrom,
+                               TimeTo=timeTo,
+                               RoomName=roomName,
+                            };
+                            RoomPeriodd.Add(roompp);
+                        }
+                    }
+                }
+            }
+
+            return RoomPeriodd;
+        }
     }
 }

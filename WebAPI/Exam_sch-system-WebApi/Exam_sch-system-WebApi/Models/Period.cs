@@ -9,13 +9,15 @@ public partial class Period
 
     public string PeriodName { get; set; } = null!;
 
-    public DateTime PeriodTime { get; set; }
+    public int DayId { get; set; }
 
     public string TimeFrom { get; set; } = null!;
 
     public string TimeTo { get; set; } = null!;
 
     public int RoomId { get; set; }
+
+    public virtual Day Day { get; set; } = null!;
 
     public virtual ICollection<RoomPeriod> RoomPeriods { get; } = new List<RoomPeriod>();
 }

@@ -4,6 +4,6 @@ namespace Exam_sch_system_WebApi.UtilityService
 {
     public interface IEmailServices
     {
-        void SendEmail(EmailModel emailModel);
+      void SendEmail(EmailModel emailModel);
     }
 }
