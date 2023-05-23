@@ -120,14 +120,14 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return NoContent();
         }
-        [HttpGet("GetRoomName/{id}")]
-        public async Task<IActionResult> GetRoomName(int id)
+        [HttpGet("GetRoomName/{name}")]
+        public async Task<IActionResult> GetRoomName(string name)
         {
             if (_context.Rooms == null)
             {
                 return NotFound();
             }
-            var room = await _context.Rooms.FindAsync(id);
+            var room =  _context.Rooms.Where(r=>r.RoomName== name).FirstOrDefault();
             if (room == null)
             {
                 return NotFound();
@@ -135,7 +135,7 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return Ok(new
             {
-                roomName=room.RoomName
+                roomName=room.RoomId
             });
         }
         private bool RoomExists(int id)
