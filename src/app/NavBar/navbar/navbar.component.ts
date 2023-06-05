@@ -61,4 +61,7 @@ export class NavbarComponent {
   Roomcomp() {
     this.router.navigate(['room'])
   }
+  Dayscomp() {
+    this.router.navigate(['days'])
+  }
 }

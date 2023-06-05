@@ -16,8 +16,8 @@ export class EditRolesComponent implements OnInit {
   userroleid: number | undefined;
   roles = [
     { id: 1, name: 'Admin' },
-    { id: 2, name: 'User' },
-    { id: 3, name: 'Emp' },
+    { id: 3, name: 'User' },
+    { id: 2, name: 'Emp' },
   ];
   /////////////////////////////////////////////////
   constructor(
@@ -26,27 +26,28 @@ export class EditRolesComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: any,
   ) {
 
-    this.id = data
+    this.id = data.roleId
+    this.userrole=data.roleName
   }
   /////////////////////////////////////////////////
 
   /////////////////////////////////////////////////
   ngOnInit(): void {
 
-    this.getrole(this.id)
-
+    // this.getrole(this.id)
+    // console.log(this.id)
   }
   /////////////////////////////////////////////////
-  getrole(id: number) {
-    this.roleervice.getrole(this.id).subscribe({
-      next: (res) => {
-        if (res !== undefined) {
-          this.userrole = this.roles.find(role => role.id == res)?.name;
-          this.userroleid = this.roles.find(role => role.id == res)?.id;
-        }
-      }
-    })
-  }
+  // getrole(id: number) {
+  //   this.roleervice.getrole(this.id).subscribe({
+  //     next: (res) => {
+  //       if (res !== undefined) {
+  //         this.userrole = this.roles.find(role => role.id == res)?.name;
+  //         this.userroleid = this.roles.find(role => role.id == res)?.id;
+  //       }
+  //     }
+  //   })
+  // }
   editrole() {
     const userroleid = this.roles.find(role => role.name == this.userrole)?.id;
     this.roleervice.editrole(this.id, userroleid!).subscribe({

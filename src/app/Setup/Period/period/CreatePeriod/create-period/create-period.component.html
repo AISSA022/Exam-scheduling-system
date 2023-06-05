@@ -55,19 +55,17 @@
             formControlName="periodName"
           />
         </div>
-        <div style="margin-top: 18px" class="ml-2">
-          <mat-form-field appearance="fill" style="margin-left: 50px">
-            <mat-label>Date:</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker"
-              formControlName="periodTime"
-            />
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+        <div style="display: flex">
+          <mat-form-field
+            appearance="fill"
+            style="margin-left: 50px; height: 75px; margin-top: 20px"
+          >
+            <mat-label>Day:</mat-label>
+            <select matNativeControl formControlName="dayId" required >
+              <option *ngFor="let day of dayTimes" [value]="day.Id" >
+                {{ day.Time |date}}
+              </option>
+            </select>
           </mat-form-field>
         </div>
       </div>

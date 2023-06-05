@@ -26,10 +26,10 @@ export class SetupService {
     return this.http.put<any>(`${this.apiUrl}/Rooms/${id}`, data)
   }
 
-  public getRoomName(id:number){
-    return this.http.get<string>(`${this.apiUrl}/Rooms/GetRoomName/${id}`)
+  public getRoomName(name: string) {
+    return this.http.get<number>(`${this.apiUrl}/Rooms/GetRoomName/${name}`)
   }
-  
+
   ////////////////////////////////////Period//////////////////////////////////////////////////
   public getPeriods(): Observable<any> {
     return this.http.get(`${this.apiUrl}/Periods`)
@@ -50,4 +50,26 @@ export class SetupService {
   // public getRoomNameByPeriodId(periodid:number){
   //   return this.http.get<string>(`${this.apiUrl}/GetRoomNameByPeriodIdd/${periodid}`)
   // }
+  ////////////////////////////////////Days//////////////////////////////////////////////////
+  public getDays(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/Days`)
+  }
+  public insertDay(day: any) {
+    return this.http.post(`${this.apiUrl}/Days`, day)
+  }
+  public deleteDay(id: number) {
+    return this.http.delete(`${this.apiUrl}/Days/${id}`)
+  }
+
+  public UpdateDay(id: number, data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/Days/${id}`, data)
+  }
+
+  public GetAllDays(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Days/GetAllDayTimes`)
+  }
+  //////////////////////////////////////////////////////////
+  public GetRoomPeriod(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/StoredProcedure/GetRoomPeriod`);
+  }
 }

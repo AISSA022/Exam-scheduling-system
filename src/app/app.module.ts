@@ -47,6 +47,15 @@ import { DeltePeriodComponent } from './Setup/Period/period/DeeletPeriod/delte-p
 import { EditPeriodComponent } from './Setup/Period/period/EditPeriod/edit-period/edit-period.component';
 import { CoursesComponent } from './Courses/courses/courses.component';
 import { CreateCourseComponent } from './Courses/courses/CreateCourse/create-course/create-course.component';
+import { DelteCourseComponent } from './Courses/courses/DeleteCourse/delte-course/delte-course.component';
+import { EditCourseComponent } from './Courses/courses/EditCourse/edit-course/edit-course.component';
+import { StudentCourseComponent } from './Courses/courses/StudentCourse/student-course/student-course.component';
+import { StudentOfTheCourseComponent } from './Courses/courses/StudentOfTheCourse/student-of-the-course/student-of-the-course.component';
+import { DaysComponent } from './Setup/Days/days/days.component';
+import { EditDaysComponent } from './Setup/Days/days/EditDay/edit-days/edit-days.component';
+import { DeleteDayComponent } from './Setup/Days/days/DeleteDay/delete-day/delete-day.component';
+import { AddDayComponent } from './Setup/Days/days/AddDay/add-day/add-day.component';
+import { BookExamComponent } from './Courses/courses/BookExam/book-exam/book-exam.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,7 +82,16 @@ import { CreateCourseComponent } from './Courses/courses/CreateCourse/create-cou
     DeltePeriodComponent,
     EditPeriodComponent,
     CoursesComponent,
-    CreateCourseComponent
+    CreateCourseComponent,
+    DelteCourseComponent,
+    EditCourseComponent,
+    StudentCourseComponent,
+    StudentOfTheCourseComponent,
+    DaysComponent,
+    EditDaysComponent,
+    DeleteDayComponent,
+    AddDayComponent,
+    BookExamComponent
 
 
   ],

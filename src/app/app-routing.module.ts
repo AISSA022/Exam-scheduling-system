@@ -14,6 +14,7 @@ import { EditProfileComponent } from './users/user-profile/edit-profile/edit-pro
 import { RoomsComponent } from './Setup/Rooms/rooms/rooms.component';
 import { PeriodComponent } from './Setup/Period/period/period.component';
 import { CoursesComponent } from './Courses/courses/courses.component';
+import { DaysComponent } from './Setup/Days/days/days.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,8 @@ const routes: Routes = [
   { path: "room", component: RoomsComponent },
   { path: "period", component: PeriodComponent },
   { path: "courses", component: CoursesComponent },
+  { path: "days", component: DaysComponent },
+
 
 ];
 

@@ -15,7 +15,7 @@ import { EditPeriodComponent } from './EditPeriod/edit-period/edit-period.compon
 })
 export class PeriodComponent {
   //////////////////Table//////////////////
-  displayedColumns: string[] = ['Id', 'periodName', 'periodTime', 'timeFrom', "timeTo", "roomId", 'actions'];
+  displayedColumns: string[] = ['periodId', 'periodName', 'dayTime', 'timeFrom', "timeTo", "roomName", 'actions'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -27,7 +27,7 @@ export class PeriodComponent {
   }
   ////////////////////////////////////////
   public getusers() {
-    this.setupService.getPeriods().subscribe({
+    this.setupService.GetRoomPeriod().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.sort;
@@ -51,15 +51,15 @@ export class PeriodComponent {
   }
   //////////////////////////////////////////////////
   opendeleteperiod(id: number, PeriodName: string) {
-     this.matdialog.open(DeltePeriodComponent, {
-       data: { id, PeriodName },
-     });
+    this.matdialog.open(DeltePeriodComponent, {
+      data: { id, PeriodName },
+    });
   }
   //////////////////////////////////////////////////
   openeditperiod(data: any) {
-     this.matdialog.open(EditPeriodComponent, {
-       data,
-     });
+    this.matdialog.open(EditPeriodComponent, {
+      data,
+    });
   }
   ///////////////////////////////////////////////////
 

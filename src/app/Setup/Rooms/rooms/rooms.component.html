@@ -27,7 +27,7 @@
       <input
         matInput
         (keyup)="applyFilter($event)"
-        placeholder="Ex. Ahmad"
+        placeholder="Ex. Room1"
         #input
       />
     </mat-form-field>
@@ -49,7 +49,7 @@
         <!-- Seats Number Column -->
         <ng-container matColumnDef="seatNumber">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Seats Number
+            Capacity
           </th>
           <td mat-cell *matCellDef="let row">{{ row.seatNumber }}</td>
         </ng-container>
@@ -80,10 +80,16 @@
             <button
               mat-icon-button
               color="warn"
-              (click)="opendeleteroom( row.roomId,row.roomName)"
+              (click)="opendeleteroom(row.roomId, row.roomName)"
             >
               <mat-icon>delete</mat-icon>
             </button>
+            <button
+            mat-icon-button
+            (click)="opendeleteroom(row.roomId, row.roomName)"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
           </td>
         </ng-container>
 

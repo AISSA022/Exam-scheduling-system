@@ -22,7 +22,7 @@ export class DeltePeriodComponent {
     this.setupService.deletePeriod(id).subscribe({
       next: (res) => {
         this.dialog.closeAll(),
-          this.snackbar.open('User Deleted successfully', 'Close', {
+          this.snackbar.open('Period Deleted successfully', 'Close', {
             duration: 3000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom',

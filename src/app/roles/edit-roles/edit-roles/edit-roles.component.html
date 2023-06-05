@@ -8,17 +8,11 @@
       <mat-label>Type:</mat-label>
       <select [(ngModel)]="userrole" matNativeControl required>
         <option value="{{ userrole }}">{{ userrole }}</option>
-        <!-- <option *ngFor="let role of roles" [value]="role.id" [disabled]="role.name === userrole" >{{role.name}}</option> -->
         <option *ngFor="let role of roles" [value]="role.name">
           <p *ngIf="role.name !== userrole">{{ role.name }}</p>
         </option>
       </select>
-      <!-- <select >
-        <option [value]="userrole">{{userrole}}</option>
-        <ng-container *ngFor="let role of roles">
-          <option [value]="role.name" *ngIf="role.name !== userrole">{{role.name}}</option>
-        </ng-container>
-      </select> -->
+
     </mat-form-field>
     <div class="d-flex">
       <div>
@@ -40,7 +34,7 @@
         <button
           type="button"
           class="btn btn-secondary btn-block btn-round mt-1"
-          (click)="editper(userroleid)"
+          (click)="editper(this.id)"
           style="width: 200px; margin-left: 10px"
         >
           <span>Edit Permissions </span>

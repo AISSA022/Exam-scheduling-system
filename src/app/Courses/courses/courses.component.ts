@@ -7,6 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoursesService } from 'src/app/Services/Courses/courses.service';
 import { UserStoreService } from 'src/app/Services/User-Store/user-store.service';
 import { CreateCourseComponent } from './CreateCourse/create-course/create-course.component';
+import { DelteCourseComponent } from './DeleteCourse/delte-course/delte-course.component';
+import { EditCourseComponent } from './EditCourse/edit-course/edit-course.component';
+import { SemesterCourseService } from 'src/app/Services/Semester-Course/semester-course.service';
+import { StudentCourseComponent } from './StudentCourse/student-course/student-course.component';
+import { StudentOfTheCourseComponent } from './StudentOfTheCourse/student-of-the-course/student-of-the-course.component';
+import { BookExamComponent } from './BookExam/book-exam/book-exam.component';
 
 @Component({
   selector: 'app-courses',
@@ -14,9 +20,12 @@ import { CreateCourseComponent } from './CreateCourse/create-course/create-cours
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent {
-
+  semesters!: any[];
+  showDiv = true;
+  semesterIdSelected!: number;
+  semesterCourseId!: number;
   /////////////////Table//////////////////
-  displayedColumns: string[] = ['courseId', 'courseName', 'courseCode', 'section', "instructor", 'actions'];
+  displayedColumns: string[] = ['courseId', 'courseName', 'courseCode', 'section', "instructor", "roomName", "periodName", 'actions', 'StudentsofCourse'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -29,13 +38,13 @@ export class CoursesComponent {
     private matdialog: MatDialog,
     private route: ActivatedRoute,
     private userstoreService: UserStoreService,
+    private SemesterCourseService: SemesterCourseService
   ) {
 
   }
   //////////Init//////////////
   ngOnInit() {
-    this.getCourses()
-
+    this.getSemesters();
   }
   getCourses() {
     this.Courseservice.getCourse().subscribe({
@@ -49,24 +58,34 @@ export class CoursesComponent {
     })
   }
   ////////////////////////
-  public deleteuser(firstName: string, id: number) {
+  public deleteCourse(courseName: string, courseId: number) {
 
-    // this.matdialog.open(DeleteuserComponent, {
-    //   data: { firstName, id },
-    // });
+    this.matdialog.open(DelteCourseComponent, {
+      data: { courseName, courseId },
+    });
   }
 
   ////////////////////////////////////////////
-  edituser(data: any) {
-    // this.matdialog.open(EditUserComponent, {
-    //   data,
-    // });
+  editCourse(data: any, semesterIdSelected: any) {
+    this.matdialog.open(EditCourseComponent, {
+      data: { data, semesterIdSelected },
+    });
   }
   /////////////////////Naviagetoedit///////////////////////
-  gotoedit(id: number) {
-    // this.router.navigate(['/users/EditUser', id]);
+  getCoursesBySemester() {
+    if (this.semesterIdSelected == undefined) {
+      this.semesterIdSelected = 1
+    }
+    this.SemesterCourseService.getcoursesrefertosemester(this.semesterIdSelected).subscribe({
+      next: (res) => {
+        this.semesterCourseId = res.semesterCourseId
+        this.dataSource = new MatTableDataSource(res);
+        console.log(this.dataSource)
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator
+      }
+    })
   }
-
   //////////////////FilterTable Search//////////////////////////
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -77,6 +96,51 @@ export class CoursesComponent {
     }
   }
   opencreateCourse() {
-    this.matdialog.open(CreateCourseComponent)
+    if (!this.semesterIdSelected) {
+      this.semesterIdSelected = 1;
+    }
+    this.matdialog.open(CreateCourseComponent, {
+      data: { semesterIdSelected: this.semesterIdSelected }
+    });
+  }
+
+  Addusercourse(courseName: string, semesterCourseId: number) {
+    this.matdialog.open(StudentCourseComponent, {
+      data: { courseName, semesterCourseId },
+    });
+  }
+  /////////////////////////////////////////////////////////////
+  getSemesters() {
+    this.SemesterCourseService.getSemestersName().subscribe({
+      next: (res) => {
+        this.semesters = res
+      }
+    })
+  }
+  ///////////////////////////////////////////////////////////////////
+  closesemester() {
+    const hello = document.getElementById('semesterdiv')!;
+    this.showDiv = !this.showDiv;
+
+    if (this.showDiv) {
+      hello.style.display = 'flex';
+    } else {
+      hello.style.display = 'none';
+    }
+  }
+  ////////////////////////////////////////////////
+  onChangeSemester(event: any) {
+    this.semesterIdSelected = event.target.value;
+    console.log(this.semesterIdSelected)
+  }
+  ///////////////////////////////////////////////////
+  StudentsoftheCourse(semesterCourseId: number) {
+    this.matdialog.open(StudentOfTheCourseComponent, {
+      data: { semesterCourseId },
+    });
+  }
+  /////////////////////////////////////////////////////////
+  openbookexam() {
+    this.matdialog.open(BookExamComponent)
   }
 }

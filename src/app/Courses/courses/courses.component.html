@@ -6,29 +6,104 @@
     <hr color="black" />
   </div>
 
-  <div class="col-md-3 mb-3 mt-2" style="width: 250px; margin-left: 1000px">
-    <button
-      (click)="opencreateCourse()"
-      class="btn mt-3 mb-2 mb-md-0 btn-primary btn-block"
-      style="background-color: #0a66c2; border-color: #0a66c2"
-    >
-      <span>Create Course</span>
-      <div class="icon d-flex align-items-center justify-content-center">
-        <mat-icon style="color: #0a66c2">chrome_reader_mode</mat-icon>
-      </div>
-    </button>
+  <div class="col-md-3 mb-3 mt-2" style="display: flex">
+    <div>
+      <button
+        (click)="opencreateCourse()"
+        class="btn mt-3 mb-2 mb-md-0 btn-primary btn-block"
+        style="
+          background-color: #0a66c2;
+          border-color: #0a66c2;
+          width: 200px;
+          margin-left: 1100px;
+        "
+      >
+        <span>Create Course</span>
+        <div class="icon d-flex align-items-center justify-content-center">
+          <mat-icon style="color: #0a66c2">chrome_reader_mode</mat-icon>
+        </div>
+      </button>
+    </div>
   </div>
   <!-- /////////////////////////////////////////Table/////////////////////////////////-->
-  <div class="mb-5" style="width: 1200px; margin-left: 130px">
-    <mat-form-field>
-      <mat-label>Search...</mat-label>
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        placeholder="Ex. Ahmad"
-        #input
-      />
-    </mat-form-field>
+  <div class="mb-5" style="width: 1300px; margin-left: 60px">
+    <div style="font-family: 'Open+Sans', sans-serif">
+      <div
+        style="
+          background-color: #f3f1f7;
+          color: #083139;
+          border: 0 !important;
+          display: flex;
+        "
+      >
+        <div>
+          <mat-icon style="margin-top: 6px">av_timer</mat-icon>
+        </div>
+        <div class="vertical-line"></div>
+        <div style="margin: 8px">Select Semester</div>
+        <div style="right: 5%; position: absolute">
+          <button
+            style="background-color: transparent; border-color: transparent"
+            (click)="closesemester()"
+          >
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div id="semesterdiv" class="semester" style="margin-top: 10px">
+        <div style="margin: 10px; margin-top: 30px">Semester :</div>
+        <div style="margin-left: 20px">
+          <mat-form-field appearance="fill" style="margin-top: 15px">
+            <mat-label>Select Semester</mat-label>
+            <select
+              matNativeControl
+              required
+              (change)="onChangeSemester($event)"
+            >
+              <option
+                style="width: 500px"
+                *ngFor="let semester of semesters"
+                [value]="semester.semesterId"
+              >
+                {{ semester.semesterName }}
+              </option>
+            </select>
+          </mat-form-field>
+        </div>
+        <div style="margin-left: 30px">
+          <button
+            (click)="getCoursesBySemester()"
+            class="btn mt-3 mb-2 mb-md-0 btn-primary btn-block"
+            style="
+              background-color: #0a66c2;
+              border-color: #0a66c2;
+              height: 40px;
+              width: 200px;
+              border-radius: 5px;
+              margin-bottom: 20px;
+              margin-left: 80px;
+            "
+          >
+            <span>List</span>
+            <!-- <div class="icon d-flex align-items-center justify-content-center">
+              <mat-icon style="color: #0a66c2"> format_list_bulleted</mat-icon>
+            </div> -->
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 10px">
+      <mat-form-field>
+        <mat-label>Search...</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Ex. DataBase"
+          #input
+        />
+      </mat-form-field>
+    </div>
 
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
@@ -60,20 +135,51 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Instructor</th>
           <td mat-cell *matCellDef="let row">{{ row.instructor }}</td>
         </ng-container>
-
+        <!-- Instructor Column -->
+        <ng-container matColumnDef="roomName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Room Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.roomName }}</td>
+        </ng-container>
+        <!-- Instructor Column -->
+        <ng-container matColumnDef="periodName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Period</th>
+          <td mat-cell *matCellDef="let row">{{ row.periodName }}</td>
+        </ng-container>
         <!-- Action Column -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button color="primary" (click)="edituser(row)">
+            <button mat-icon-button color="primary" (click)="editCourse(row,this.semesterIdSelected)">
               <mat-icon>edit</mat-icon>
             </button>
             <button
               mat-icon-button
               color="warn"
-              (click)="deleteuser(row.firstName, row.id)"
+              (click)="deleteCourse(row.courseName, row.courseId)"
             >
               <mat-icon>delete</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="Addusercourse(row.courseName, row.semesterCourseId)"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <!-- //////////////////// -->
+        <ng-container matColumnDef="StudentsofCourse">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Students Of This Course
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              mat-icon-button
+              color="primary"
+              style="margin-left: 30px"
+              (click)="StudentsoftheCourse(row.semesterCourseId)"
+            >
+              <mat-icon>list</mat-icon>
             </button>
           </td>
         </ng-container>

@@ -23,4 +23,7 @@ export class RoleServiceService {
   public editRolePermission(id: number, permissionIds: number[]) {
     return this.http.post(`${this.apiUrl}/Roles/Edit-RolePermission/${id}`, permissionIds)
   }
+  public getallroles(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/Roles`);
+  }
 }

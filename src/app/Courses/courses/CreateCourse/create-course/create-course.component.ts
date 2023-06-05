@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CoursesService } from 'src/app/Services/Courses/courses.service';
+import { SemesterCourseService } from 'src/app/Services/Semester-Course/semester-course.service';
 
 @Component({
   selector: 'app-create-course',
@@ -14,7 +15,14 @@ import { CoursesService } from 'src/app/Services/Courses/courses.service';
 export class CreateCourseComponent implements OnInit {
   createCourseForm!: FormGroup;
   ///////////////////////////////////////////////////////////////////////////////
-  constructor(private snackbar: MatSnackBar, private Courseservice: CoursesService, private formBuilder: FormBuilder, private router: Router, private matdialog: MatDialog) { }
+  constructor(
+    private snackbar: MatSnackBar,
+    private Courseservice: CoursesService,
+    private SemesterCourse: SemesterCourseService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private matdialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) private data: any) { }
   ///////////////////////////////////////////////////////////////////////////////
   ngOnInit() {
     this.createCourseForm = this.formBuilder.group({
@@ -24,6 +32,7 @@ export class CreateCourseComponent implements OnInit {
       section: ['', Validators.required],
       instructor: ['', Validators.required],
     })
+    console.log(this.data.semesterIdSelected)
   }
   ///////////////////////////////////////////////////////////////////////////////
   closedialog() {
@@ -31,7 +40,7 @@ export class CreateCourseComponent implements OnInit {
   }
   ///////////////////////////////////////////////////////////////////////////////
   addcourse() {
-    this.Courseservice.AddCourse(this.createCourseForm.value).subscribe({
+    this.SemesterCourse.AddCourse(this.createCourseForm.value, this.data.semesterIdSelected).subscribe({
       next: (res) => {
         this.matdialog.closeAll();
         this.snackbar.open('Course Created successfully', 'Close', {

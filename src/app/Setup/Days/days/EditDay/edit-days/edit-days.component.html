@@ -1,0 +1,91 @@
+<div style="display: flex; flex-direction: column; height: 65vh; width: 55vw">
+  <div style="display: flex; flex-direction: row">
+    <div style="width: 50px">
+      <button
+        style="
+          border: 0;
+          background-color: transparent;
+          color: #0a66c2;
+          font-weight: bolder;
+        "
+        (click)="close()"
+      >
+        <mat-icon style="font-size: xxx-large; height: auto; width: auto"
+          >keyboard_backspace</mat-icon
+        >
+      </button>
+    </div>
+    <div class="center" style="width: 100%">
+      <img
+        src="assets/images/Clock.png"
+        alt="createuser"
+        width="100px"
+        height="100px"
+        style="margin-top: 20px; margin-left: 150px"
+      />
+      <div style="display: flex; margin-right: 200px; width: 100%">
+        <div class="hr">---------------------</div>
+        <div class="mt-2 mr-3">
+          <h1 style="font-family: Andalus; font-size: xxx-large; margin: 0px">
+            Edit Day
+          </h1>
+        </div>
+        <div class="hr">---------------------</div>
+      </div>
+    </div>
+  </div>
+  <!-- //////////// ////// //////Form ////// ////// ////// //////  -->
+
+  <div style="margin-top: 50px">
+    <!-- /////////////Name/////////// -->
+    <form style="width: 100%" [formGroup]="EditDayForm" (ngSubmit)="EditDay()">
+      <div style="display: flex; margin-left: 240px">
+        <div style="margin-top: 18px" class="ml-2">
+          <mat-form-field appearance="fill" style="margin-left: 50px">
+            <mat-label>Date:</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="dayTime"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <button
+          type="submit"
+          class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
+          id="fixedbtn"
+        >
+          <span>Update</span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black"> done_outline</mat-icon>
+          </div>
+        </button>
+        <button
+          class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
+          id="fixedbtn"
+          style="left: 5%"
+          type="button"
+          (click)="close()"
+        >
+          <span>Cancle</span>
+          <div
+            class="icon icon-round d-flex align-items-center justify-content-center"
+          >
+            <mat-icon style="color: black"> done_outline</mat-icon>
+          </div>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- //////////////////////////// -->
+</div>

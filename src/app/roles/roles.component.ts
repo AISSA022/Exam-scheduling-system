@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserStoreService } from '../Services/User-Store/user-store.service';
 import { AuthService } from '../Services/Auth/auth.service';
 import { EditRolesComponent } from './edit-roles/edit-roles/edit-roles.component';
+import { RoleServiceService } from '../Services/Roles/role-service.service';
 
 @Component({
   selector: 'app-roles',
@@ -16,7 +17,7 @@ import { EditRolesComponent } from './edit-roles/edit-roles/edit-roles.component
 })
 export class RolesComponent implements OnInit {
   ///////////Table/////////////
-  displayedColumns: string[] = [ "firstName", "lastName", "email", 'acc'];
+  displayedColumns: string[] = ["roleId", "roleName", "userId", 'acc'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -27,31 +28,32 @@ export class RolesComponent implements OnInit {
     private matdialog: MatDialog,
     private route: ActivatedRoute,
     private userstoreService: UserStoreService,
+    private RoleService: RoleServiceService,
     private authService: AuthService,
   ) { }
 
   /////////////////////////////
   ngOnInit() {
     this.userstoreService.getRolefromstore()
-    .subscribe(res => {
-      const roleFromToken = this.authService.getrolefromtoken()
-      this.role = res || roleFromToken
-    }
-    )
-    this.getusers();
+      .subscribe(res => {
+        const roleFromToken = this.authService.getrolefromtoken()
+        this.role = res || roleFromToken
+      }
+      )
+    this.getRoles();
   }
 
   /////////////////////////////////////////
 
-  public getusers() {
-    this.service.getAllUsers().subscribe({
+  public getRoles() {
+    this.RoleService.getallroles().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator
+        this.dataSource.paginator = this.paginator;
       }
-
     })
+
   }
 
   applyFilter(event: Event) {
@@ -62,11 +64,11 @@ export class RolesComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  editrole(data:any){
-      this.matdialog.open(EditRolesComponent, {
-        data,
-      });
-    
+  editrole(roleId: number, roleName: string) {
+    this.matdialog.open(EditRolesComponent, {
+      data: { roleId, roleName }
+    });
+
   }
 
 

@@ -99,6 +99,20 @@
           />
         </div>
       </div>
+      <div style="margin-left: 230px">
+        <mat-form-field
+          appearance="fill"
+          style="height: 75px; margin-top: 20px"
+        >
+          <mat-label>Type:</mat-label>
+          <select matNativeControl formControlName="roleId" required>
+            <option value="{{ userrole }}">{{ userrole }}</option>
+            <option *ngFor="let role of roles" [value]="role.name">
+              <p *ngIf="role.name !== userrole">{{ role.name }}</p>
+            </option>
+          </select>
+        </mat-form-field>
+      </div>
 
       <div>
         <button

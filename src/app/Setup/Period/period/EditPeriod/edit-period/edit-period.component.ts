@@ -38,6 +38,8 @@ export class EditPeriodComponent implements OnInit {
   Rooms: { id: number, name: string }[] = [];
   EditPeriodForm!: FormGroup;
   roomnames: string | undefined;
+  dayTimes: { Id: number, Time: Date }[] = [];
+
   //////////////////constructor//////////////////
   constructor(
     private dialog: MatDialog,
@@ -49,7 +51,7 @@ export class EditPeriodComponent implements OnInit {
     this.EditPeriodForm = this.fb.group({
       id: 0,
       periodName: ['', Validators.required],
-      periodTime: ['', [Validators.required]],
+      dayId: ['', [Validators.required]],
       timeFrom: ['', [Validators.required]],
       timeTo: ['', Validators.required],
       roomId: ['', Validators.required],
@@ -60,6 +62,7 @@ export class EditPeriodComponent implements OnInit {
   ngOnInit() {
     this.getrooms()
     this.getroomName()
+    this.getDays()
     this.EditPeriodForm.patchValue(this.data)
   }
   ////////////////////////////////////
@@ -70,7 +73,7 @@ export class EditPeriodComponent implements OnInit {
   EditPeriod() {
     if (this.EditPeriodForm.valid) {
       if (this.data) {
-        this.SetUpservices.UpdatePeriod(this.data.id, this.EditPeriodForm.value)
+        this.SetUpservices.UpdatePeriod(this.data.periodId, this.EditPeriodForm.value)
           .subscribe({
             next: (res) => {
               this.dialog.closeAll(),
@@ -111,10 +114,22 @@ export class EditPeriodComponent implements OnInit {
   }
   ////////////////////////////////////////////////////////////
   getroomName() {
-    this.SetUpservices.getRoomName(this.data.roomId).subscribe({
+    this.SetUpservices.getRoomName(this.data.roomName).subscribe({
       next: (res: any) => {
         this.roomnames = res.roomName;
         console.log(this.roomnames)
+      }
+    })
+  }
+  ////////////////////////////////////////////////////
+  getDays() {
+    this.SetUpservices.getDays().subscribe({
+      next: (res) => {
+        this.SetUpservices.getDays().subscribe((res: any[]) => {
+          res.forEach((day: any) => {
+            this.dayTimes.push({ Id: day.dayId, Time: day.dayTime });
+          });
+        });
       }
     })
   }

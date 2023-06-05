@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { SetupService } from 'src/app/Services/Setup/setup.service';
 
 @Component({
@@ -35,21 +36,32 @@ export class CreatePeriodComponent implements OnInit {
     { id: 20, name: '5:30' },
 
   ];
+  dayTimes: { Id: number, Time: Date }[] = [];
   Rooms: { id: number, name: string }[] = [];
   createPeriodForm!: FormGroup;
+  semestercourseId!: number;
+  dayIdSubscription: Subscription | undefined;
   //////////////////////////////////////////////////////////////////////////////////////////////////
   constructor(private snackbar: MatSnackBar, private SetUpservice: SetupService, private formBuilder: FormBuilder, private router: Router, private matdialog: MatDialog) { }
   //////////////////////////////////////////////////////////////////////////////////////////////////
   ngOnInit() {
     this.getrooms()
+    this.getDays()
+    console.log(this.dayTimes)
     this.createPeriodForm = this.formBuilder.group({
       id: 0,
       periodName: ['', Validators.required],
-      periodTime: ['', [Validators.required]],
+      dayId: [this.dayTimes, [Validators.required]],
       timeFrom: ['', [Validators.required]],
       timeTo: ['', Validators.required],
       roomId: ['', Validators.required],
+      day: this.formBuilder.group({
+        dayId: ['', Validators.required],
+        dayTime: ['', Validators.required]
+      })
     })
+    ///////////////////
+    this.getDayTimeById(2)
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////
   getrooms() {
@@ -93,5 +105,31 @@ export class CreatePeriodComponent implements OnInit {
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
+  getDays() {
+    this.SetUpservice.getDays().subscribe({
+      next: (res) => {
+        this.SetUpservice.getDays().subscribe((res: any[]) => {
+          res.forEach((day: any) => {
+            this.dayTimes.push({ Id: day.dayId, Time: day.dayTime });
+          });
+        });
+      }
+    })
+  }
+  // updateDayTime() {
+  //   const selectedDayId = this.createPeriodForm.get('dayId')?.value;
+  //   const selectedDay = this.dayTimes.find(day => day.Id === selectedDayId);
 
+  //   if (selectedDay) {
+  //     this.createPeriodForm.get('day.dayTime')?.setValue(selectedDay.Time);
+  //     this.createPeriodForm.get('day.dayId')?.setValue(selectedDayId);
+  //   }
+  // }
+  getDayTimeById(id: number) {
+    const day = this.dayTimes.find(day => day.Id === id);
+    if (day) {
+      const time = new Date(day.Time);
+      console.log(time)
+    }
+  }
 }
