@@ -26,55 +26,55 @@ namespace Exam_sch_system_WebApi.Controllers
 
 
 
-        [HttpGet("GetStudentsReferToSemesterCourses/{semesterId}")]
-        public ActionResult<IEnumerable<SemesterCoursesRoom>> GetStudentsReferToSemesterCourses(int semesterId)
-        {
-            List<SemesterCoursesRoom> semesterCourses = new List<SemesterCoursesRoom>();
-
-            using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
+            [HttpGet("GetStudentsReferToSemesterCourses/{semesterId}")]
+            public ActionResult<IEnumerable<SemesterCoursesRoom>> GetStudentsReferToSemesterCourses(int semesterId)
             {
-                using (SqlCommand command = new SqlCommand("GetStudentsReferToSemesterCourses", connection))
+                List<SemesterCoursesRoom> semesterCourses = new List<SemesterCoursesRoom>();
+
+                using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@SemesterId", semesterId);
-
-                    connection.Open();
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand("GetStudentsReferToSemesterCourses", connection))
                     {
-                        while (reader.Read())
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@SemesterId", semesterId);
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
+                            while (reader.Read())
+                            {
                             
-                            var courseId = reader.GetInt32(reader.GetOrdinal("CourseId"));
-                            var courseName = reader.GetString(reader.GetOrdinal("CourseName"));
-                            var courseCode = reader.GetString(reader.GetOrdinal("CourseCode"));
-                            var section = reader.GetString(reader.GetOrdinal("Section"));
-                            var instructor = reader.GetString(reader.GetOrdinal("Instructor"));
-                            var roomName = reader.GetString(reader.GetOrdinal("RoomName"));
-                            var periodName = reader.GetString(reader.GetOrdinal("PeriodName"));
-                            var semesterCourseId = reader.GetInt32(reader.GetOrdinal("SemesterCourseId"));
+                                var courseId = reader.GetInt32(reader.GetOrdinal("CourseId"));
+                                var courseName = reader.GetString(reader.GetOrdinal("CourseName"));
+                                var courseCode = reader.GetString(reader.GetOrdinal("CourseCode"));
+                                var section = reader.GetString(reader.GetOrdinal("Section"));
+                                var instructor = reader.GetString(reader.GetOrdinal("Instructor"));
+                                var roomName = reader.IsDBNull(reader.GetOrdinal("RoomName")) ? null : reader.GetString(reader.GetOrdinal("RoomName"));
+                                var periodName = reader.IsDBNull(reader.GetOrdinal("PeriodName")) ? null : reader.GetString(reader.GetOrdinal("PeriodName")); ;
+                                var semesterCourseId = reader.IsDBNull(reader.GetOrdinal("SemesterCourseId")) ? null : (int?)reader.GetInt32(reader.GetOrdinal("SemesterCourseId"));
                             // Retrieve other relevant columns as needed
 
                             var semesterCourse = new SemesterCoursesRoom
-                            {
-                                CourseId = courseId,
-                                CourseName = courseName,
-                                CourseCode = courseCode,
-                                Section = section,
-                                Instructor = instructor,
-                                RoomName = roomName,
-                                PeriodName = periodName,
-                                SemesterCourseId = semesterCourseId
-                            };
+                                {
+                                    CourseId = courseId,
+                                    CourseName = courseName,
+                                    CourseCode = courseCode,
+                                    Section = section,
+                                    Instructor = instructor,
+                                    RoomName = roomName ,
+                                    PeriodName = periodName ,
+                                    SemesterCourseId = (int)semesterCourseId 
+                                };
 
-                            semesterCourses.Add(semesterCourse);
+                                semesterCourses.Add(semesterCourse);
+                            }
                         }
                     }
                 }
-            }
             
-            return semesterCourses;
-        }
+                return semesterCourses;
+            }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         [HttpGet("GetRoomPeriod")]

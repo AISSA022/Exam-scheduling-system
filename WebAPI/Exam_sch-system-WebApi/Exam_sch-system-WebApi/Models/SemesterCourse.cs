@@ -11,11 +11,11 @@ public partial class SemesterCourse
 
     public int SemesterId { get; set; }
 
-    public int RoomPeriodId { get; set; }
+    public int? RoomPeriodId { get; set; }
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual RoomPeriod RoomPeriod { get; set; } = null!;
+    public virtual RoomPeriod? RoomPeriod { get; set; }
 
     public virtual Semester Semester { get; set; } = null!;
 

@@ -29,6 +29,15 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             return Ok(user.RoleId);
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Role>>> GetAllRoles()
+        {
+            if (_context.Roles == null)
+            {
+                return NotFound();
+            }
+            return await _context.Roles.ToListAsync();
+        }
         [HttpPut("Edit-Role/{userid}/{roleid}")]
         public async Task<ActionResult<User>> EditRole(int userid,int roleid)
         {
@@ -154,6 +163,7 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return Ok();
         }
+
 
 
     }
