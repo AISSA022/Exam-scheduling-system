@@ -55,7 +55,6 @@ import { DaysComponent } from './Setup/Days/days/days.component';
 import { EditDaysComponent } from './Setup/Days/days/EditDay/edit-days/edit-days.component';
 import { DeleteDayComponent } from './Setup/Days/days/DeleteDay/delete-day/delete-day.component';
 import { AddDayComponent } from './Setup/Days/days/AddDay/add-day/add-day.component';
-import { BookExamComponent } from './Courses/courses/BookExam/book-exam/book-exam.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +90,6 @@ import { BookExamComponent } from './Courses/courses/BookExam/book-exam/book-exa
     EditDaysComponent,
     DeleteDayComponent,
     AddDayComponent,
-    BookExamComponent
 
 
   ],

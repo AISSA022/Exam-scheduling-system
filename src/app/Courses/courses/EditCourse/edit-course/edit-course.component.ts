@@ -17,6 +17,7 @@ export class EditCourseComponent {
   id?: number;
   RoomPeriod: { id: number, periodName: string, roomName: string, day: Date, timeFrom: string }[] = [];
   roomid!: number;
+  roomperiodId!: number;
   //////////////////constructor//////////////////
   constructor(
     private dialog: MatDialog,
@@ -33,13 +34,17 @@ export class EditCourseComponent {
       section: ['', Validators.required],
       instructor: ['', Validators.required],
       semesterId: ['', Validators.required],
-      roomPeriod: ['', Validators.required],
+      roomPeriod: [''],
     })
   }
   ///////////////////oninit/////////////////////////
   ngOnInit(): void {
     this.editCourseForm.patchValue(this.data.data)
     this.getRoomPeriod()
+    if (this.data.data.roomName != null && this.data.data.periodName != null) {
+      this.getroomperiodId()
+    }
+
   }
 
   ////////////////////updateuser///////////////
@@ -78,10 +83,9 @@ export class EditCourseComponent {
             })
           }
         })
-      console.log(this.data.data.courseId)
-      console.log(this.data.semesterIdSelected)
-      console.log(this.roomid)
-
+      if (this.roomid == null) {
+        window.location.reload();
+      }
       this.SemesterCourseservices.editSemesterCourse(this.data.data.courseId, this.data.semesterIdSelected, this.roomid).subscribe({
         next: (res) => {
           this.dialog.closeAll(),
@@ -127,5 +131,26 @@ export class EditCourseComponent {
   getid(event: any) {
     this.roomid = event.target.value;
     console.log(this.roomid)
+  }
+  //////////////////////////////////////////////////////////////
+  getroomperiodId() {
+    this.SemesterCourseservices.getroomperiodId(this.data.data.roomName, this.data.data.periodName).subscribe({
+      next: (res) => {
+        this.roomperiodId = res;
+      }
+    })
+  }
+  ////////////////////////////////////////////////////////////
+  getRoomPeriodById(id: number): { periodName: string, roomName: string, day: Date, timeFrom: string } | undefined {
+    const roomPeriod = this.RoomPeriod.find(room => room.id === id);
+    if (roomPeriod) {
+      return {
+        periodName: roomPeriod.periodName,
+        roomName: roomPeriod.roomName,
+        day: roomPeriod.day,
+        timeFrom: roomPeriod.timeFrom
+      };
+    }
+    return undefined;
   }
 }

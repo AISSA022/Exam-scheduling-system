@@ -49,9 +49,10 @@ export class SemesterCourseService {
 
   }
   public editSemesterCourse(courseId: number, semesterId: number, roomPeriod: number): Observable<any> {
-    // return this.http.put<any>(`${this.apiUrl}/SemesterCourse/EditSemesterCourses/${courseid}/${semesterid}`, { roomperiod: roomperiod });
     const url = `${this.apiUrl}/SemesterCourse/EditSemesterCourses/${courseId}/${semesterId}?roomperiod=${roomPeriod}`;
-
     return this.http.put(url, {});
+  }
+  public getroomperiodId(roomName: string, period: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/SemesterCourse/GetRoomPeriodByRoomPeiod/${roomName}/${period}`)
   }
 }

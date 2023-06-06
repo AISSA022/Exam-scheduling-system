@@ -12,7 +12,6 @@ import { EditCourseComponent } from './EditCourse/edit-course/edit-course.compon
 import { SemesterCourseService } from 'src/app/Services/Semester-Course/semester-course.service';
 import { StudentCourseComponent } from './StudentCourse/student-course/student-course.component';
 import { StudentOfTheCourseComponent } from './StudentOfTheCourse/student-of-the-course/student-of-the-course.component';
-import { BookExamComponent } from './BookExam/book-exam/book-exam.component';
 
 @Component({
   selector: 'app-courses',
@@ -140,7 +139,5 @@ export class CoursesComponent {
     });
   }
   /////////////////////////////////////////////////////////
-  openbookexam() {
-    this.matdialog.open(BookExamComponent)
-  }
+
 }

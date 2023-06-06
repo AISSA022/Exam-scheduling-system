@@ -105,16 +105,26 @@
           <select
             matNativeControl
             formControlName="roomPeriod"
-            required
             (change)="getid($event)"
+            [(ngModel)]="roomperiodId"
           >
+            <option [value]="roomperiodId">
+              <p *ngIf="roomperiodId != null">
+                Period: {{ getRoomPeriodById(roomperiodId)?.periodName }} -
+                Room: {{ getRoomPeriodById(roomperiodId)?.roomName }}- Date:
+                {{ getRoomPeriodById(roomperiodId)?.day | date }} - Start:
+                {{ getRoomPeriodById(roomperiodId)?.timeFrom }}
+              </p>
+            </option>
             <option
               *ngFor="let roomPeriod of RoomPeriod"
               [value]="roomPeriod.id"
             >
-              Period: {{ roomPeriod.periodName }} - Room:
-              {{ roomPeriod.roomName }}- Date: {{ roomPeriod.day | date }} -
-              Start: {{ roomPeriod.timeFrom }}
+              <p *ngIf="roomPeriod.id != roomperiodId">
+                Period: {{ roomPeriod.periodName }} - Room:
+                {{ roomPeriod.roomName }}- Date: {{ roomPeriod.day | date }} -
+                Start: {{ roomPeriod.timeFrom }}
+              </p>
             </option>
           </select>
         </mat-form-field>

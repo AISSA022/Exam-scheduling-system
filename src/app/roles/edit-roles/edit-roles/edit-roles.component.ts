@@ -38,16 +38,6 @@ export class EditRolesComponent implements OnInit {
     // console.log(this.id)
   }
   /////////////////////////////////////////////////
-  // getrole(id: number) {
-  //   this.roleervice.getrole(this.id).subscribe({
-  //     next: (res) => {
-  //       if (res !== undefined) {
-  //         this.userrole = this.roles.find(role => role.id == res)?.name;
-  //         this.userroleid = this.roles.find(role => role.id == res)?.id;
-  //       }
-  //     }
-  //   })
-  // }
   editrole() {
     const userroleid = this.roles.find(role => role.name == this.userrole)?.id;
     this.roleervice.editrole(this.id, userroleid!).subscribe({
