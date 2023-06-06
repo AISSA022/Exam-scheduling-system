@@ -118,5 +118,31 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return RoomPeriodd;
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        [HttpGet("CheckConflict/{semesterid}/{semestercourseid}")]
+        public ActionResult<int> CheckConflict(int semesterid, int semestercourseid)
+        {
+            using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
+            {
+                using (SqlCommand command = new SqlCommand("CheckConflict", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@semesterid", semesterid);
+                    command.Parameters.AddWithValue("@semestercourseid", semestercourseid);
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        var checkConflict = reader.GetInt32(reader.GetOrdinal("ConflictStatus"));
+                        return checkConflict;
+                    }
+                }
+            }
+
+            return Ok();
+        }
+
     }
+
 }

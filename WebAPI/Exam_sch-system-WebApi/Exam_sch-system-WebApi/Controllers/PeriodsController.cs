@@ -78,7 +78,7 @@ namespace Exam_sch_system_WebApi.Controllers
             {
                 return NotFound();
             }
-            periods.RoomId = period.RoomId;
+            periods.RoomId = (int)period.RoomId;
             periods.PeriodId = id;
             _context.SaveChanges();
             // If the user doesn't exist, return a 404 Not Found
@@ -119,7 +119,7 @@ namespace Exam_sch_system_WebApi.Controllers
             var roomperoid = new RoomPeriod
             {
                 Id=0,
-                RoomId = roomid,
+                RoomId = (int)roomid,
                 PeriodId = periodid,
 
             };

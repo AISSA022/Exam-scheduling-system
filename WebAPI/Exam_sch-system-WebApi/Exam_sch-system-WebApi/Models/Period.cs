@@ -15,7 +15,7 @@ public partial class Period
 
     public string TimeTo { get; set; } = null!;
 
-    public int RoomId { get; set; }
+    public int? RoomId { get; set; }
 
     public virtual Day Day { get; set; } = null!;
 

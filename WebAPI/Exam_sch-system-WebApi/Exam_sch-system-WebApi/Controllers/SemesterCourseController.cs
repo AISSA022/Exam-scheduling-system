@@ -213,7 +213,20 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return new JsonResult(roomPeriods);
         }
-        [HttpPut("EditSemesterCourses/{courseid}/{semesterid}")]
+        [HttpGet("GetRoomPeriodByRoomPeiod/{roomName}/{period}")]
+        public ActionResult<int> GetRoomPeriodByRoomPeiod(string roomName,string period)
+        {
+            var roomPeriod = _context.RoomPeriods
+        .FirstOrDefault(rp => rp.Room.RoomName == roomName && rp.Period.PeriodName == period);
+
+            if (roomPeriod == null)
+            {
+                return NotFound();
+            }
+
+            return roomPeriod.Id;
+        }
+            [HttpPut("EditSemesterCourses/{courseid}/{semesterid}")]
         public async Task<IActionResult> EditSemesterCourses( int courseid,int semesterid ,int roomperiod)
         {
          /*   if ( courseid==null ||semesterid==null)
