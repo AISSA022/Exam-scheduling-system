@@ -58,18 +58,36 @@ namespace Exam_sch_system_WebApi.Controllers
             return Ok(timeConflicts);
         }
         ////////////////
-        [HttpDelete("DeleteReport/{reportId}")]
-        public IActionResult DeleteReport(int reportId)
-        {
-            var report = _context.Reports.FirstOrDefault(r => r.ReportId == reportId);
+        /*        [HttpDelete("DeleteReport/{reportId}")]
+                public async Task<IActionResult> DeleteReport(int reportId)
+                {
+                    var report = _context.Reports.FirstOrDefault(r => r.ReportId == reportId);
 
-            if (report == null)
+                    if (report == null)
+                    {
+                        return NotFound();
+                    }
+
+                    _context.Reports.Remove(report);
+                    return Ok();
+                }*/
+        [HttpDelete("DeleteReport/{id}")]
+        public async Task<IActionResult> DeleteReport(int id)
+        {
+            if (_context.Reports == null)
+            {
+                return NotFound();
+            }
+            var rep = await _context.Reports.FindAsync(id);
+            if (rep == null)
             {
                 return NotFound();
             }
 
-            _context.Reports.Remove(report);
-            return Ok();
+            _context.Reports.Remove(rep);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
-        }
+    }
 }
