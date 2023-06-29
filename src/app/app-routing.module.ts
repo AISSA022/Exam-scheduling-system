@@ -15,6 +15,8 @@ import { RoomsComponent } from './Setup/Rooms/rooms/rooms.component';
 import { PeriodComponent } from './Setup/Period/period/period.component';
 import { CoursesComponent } from './Courses/courses/courses.component';
 import { DaysComponent } from './Setup/Days/days/days.component';
+import { StudenCourseReportComponent } from './Reports/StudentCourse/studen-course-report/studen-course-report.component';
+import { TimeConflictComponent } from './Reports/CourseTimeConflict/time-conflict/time-conflict.component';
 
 
 const routes: Routes = [
@@ -32,6 +34,9 @@ const routes: Routes = [
   { path: "period", component: PeriodComponent },
   { path: "courses", component: CoursesComponent },
   { path: "days", component: DaysComponent },
+  { path: "studentConflict", component: StudenCourseReportComponent },
+  { path: "timeConflict", component: TimeConflictComponent },
+
 
 
 ];

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { RoomDetail, RoomDetails } from 'src/app/Models/RoomDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,20 @@ export class SetupService {
   }
 
   public UpdateRoom(id: number, data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/Rooms/${id}`, data)
+    return this.http.put<any>(`${this.apiUrl}/Rooms/EditRoom?roomId=${id}`,data)
   }
 
   public getRoomName(name: string) {
     return this.http.get<number>(`${this.apiUrl}/Rooms/GetRoomName/${name}`)
   }
+  public AddRoomDetials(roomDetails: RoomDetails[], roomId: number){
+    const url = `${this.apiUrl}/RoomDetails/AddRoomDetails?roomId=${roomId}`;
+    return this.http.post<any>(url, roomDetails);
+  }
 
+  public GetRoomDetails(roomId:number){
+    return this.http.get<any[]>(`${this.apiUrl}/RoomDetails/GetRoomDetailsByRoomId?roomId=${roomId}`)
+  }
   ////////////////////////////////////Period//////////////////////////////////////////////////
   public getPeriods(): Observable<any> {
     return this.http.get(`${this.apiUrl}/Periods`)

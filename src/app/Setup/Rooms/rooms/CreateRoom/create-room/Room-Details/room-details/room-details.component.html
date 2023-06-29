@@ -1,0 +1,68 @@
+<div style="height: 90vh">
+  <div style="width: 100%">
+    <div class="center" style="margin-top: 20px; margin-left: 220px">
+      <div style="display: flex; margin-right: 200px; width: 100%">
+        <div class="hr">---------------------</div>
+        <div class="mt-2 mr-3">
+          <h1 style="font-family: Andalus; font-size: xxx-large; margin: 0px">
+            Room Details
+          </h1>
+        </div>
+        <div class="hr">---------------------</div>
+      </div>
+    </div>
+  </div>
+  <!-- //////////////////////////////////////////// -->
+  <div style="width: 100%">
+    <table class="table">
+        <thead>
+          <th></th>
+          <th>Column Name</th>
+          <th>Row Capacity</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of rowData; let i = index">
+            <td style="font-weight: bold">Column {{ i + 1 }}</td>
+            <td>
+              <input
+                type="text"
+                name=""
+                placeholder="Column Name"
+                [(ngModel)]="row.columnName"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                name=""
+                placeholder="Row Capacity"
+                [(ngModel)]="row.rowCapacity"
+              />
+              <div
+                *ngIf="!isValidNumber(row.rowCapacity)"
+                style="color: red"
+              >
+                Error: Row Capacity must be a number.
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>      
+    <div>
+      <button
+      class="btn mb-2 mb-md-0 btn-secondary btn-block btn-round"
+      style="width:40%;margin-left:250px"
+      type="button"
+      (click)="GetDetails()"
+    >
+      <span>Add</span>
+      <div
+        class="icon icon-round d-flex align-items-center justify-content-center"
+      >
+        <mat-icon style="color: black"> done_outline</mat-icon>
+      </div>
+    </button>
+    </div>
+  </div>
+  <!-- ////////////////////////////////////////////// -->
+</div>

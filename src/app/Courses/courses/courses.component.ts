@@ -103,9 +103,9 @@ export class CoursesComponent {
     });
   }
 
-  Addusercourse(courseName: string, semesterCourseId: number) {
+  Addusercourse(courseName: string, semesterCourseId: number, semesterIdSelected: number) {
     this.matdialog.open(StudentCourseComponent, {
-      data: { courseName, semesterCourseId },
+      data: { courseName, semesterCourseId, semesterIdSelected },
     });
   }
   /////////////////////////////////////////////////////////////

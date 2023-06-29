@@ -55,6 +55,9 @@ import { DaysComponent } from './Setup/Days/days/days.component';
 import { EditDaysComponent } from './Setup/Days/days/EditDay/edit-days/edit-days.component';
 import { DeleteDayComponent } from './Setup/Days/days/DeleteDay/delete-day/delete-day.component';
 import { AddDayComponent } from './Setup/Days/days/AddDay/add-day/add-day.component';
+import { RoomDetailsComponent } from './Setup/Rooms/rooms/CreateRoom/create-room/Room-Details/room-details/room-details.component';
+import { StudenCourseReportComponent } from './Reports/StudentCourse/studen-course-report/studen-course-report.component';
+import { TimeConflictComponent } from './Reports/CourseTimeConflict/time-conflict/time-conflict.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,6 +93,9 @@ import { AddDayComponent } from './Setup/Days/days/AddDay/add-day/add-day.compon
     EditDaysComponent,
     DeleteDayComponent,
     AddDayComponent,
+    RoomDetailsComponent,
+    StudenCourseReportComponent,
+    TimeConflictComponent,
 
 
   ],

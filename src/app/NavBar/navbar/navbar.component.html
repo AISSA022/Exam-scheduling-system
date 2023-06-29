@@ -85,7 +85,9 @@
         >
       </div>
       <div class="bordered">
-        <a class="dropdown-item" (click)="Dayscomp()" style="color: white">Days</a>
+        <a class="dropdown-item" (click)="Dayscomp()" style="color: white"
+          >Days</a
+        >
       </div>
     </div>
     <!-- /////Couses///// -->
@@ -104,7 +106,7 @@
       </button>
     </div>
     <!-- /////Reports////// -->
-    <div>
+    <!-- <div>
       <button
         type="button"
         class="btn btn-secondary btn-block btn-round mt-1"
@@ -117,6 +119,66 @@
           <mat-icon style="color: black"> report_problem</mat-icon>
         </div>
       </button>
+    </div> -->
+    <div>
+      <span
+        class="badge"
+        style="margin-left: 180px; background-color: red"
+        *ngIf="AllReports !== 0"
+        >{{ 2 }}</span
+      >
+      <button
+        type="button"
+        class="btn btn-secondary btn-block btn-round mt-1 d-flex"
+        (click)="openReports()"
+      >
+        <span style="margin-left: 50px;">Reports</span>
+        <div
+          class="icon icon-round d-flex align-items-center justify-content-center"
+        >
+          <mat-icon style="color: black"> report_problem</mat-icon>
+        </div>
+      </button>
+    </div>
+    <div
+      id="droplisttt"
+      style="
+        display: none;
+        border-radius: 5px;
+        border-color: #0a66c2;
+        width: 140px;
+        margin-left: 20px;
+        margin-top: 3px;
+      "
+    >
+      <div class="bordered">
+        <a class="notification"  style="color: white" (click)="TimeConflict()"
+          ><span class="spanl">Time Conflict</span
+          ><span
+            class="badge"
+            style="margin-left: 28px"
+            *ngIf="timeConflict !== 0"
+            >{{ timeConflict }}</span
+          >
+        </a>
+      </div>
+      <div class="bordered">
+        <a class="notification" style="color: white" (click)="studentConflictt()"
+          ><span class="spanl">Students Conflict</span
+          ><span
+            class="badge"
+            style="margin-left: 5px"
+            *ngIf="studentConflict !== 0"
+            >{{ studentConflict }}</span
+          >
+        </a>
+      </div>
+      <!-- <div class="bordered">
+        <a class="notification" (click)="Roomcomp()" style="color: white"
+          ><span class="spanl">Room</span
+          ><span class="badge" style="margin-left: 77px">3</span>
+        </a>
+      </div> -->
     </div>
   </mat-sidenav>
   <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

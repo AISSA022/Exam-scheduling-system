@@ -112,7 +112,7 @@
               <p *ngIf="roomperiodId != null">
                 Period: {{ getRoomPeriodById(roomperiodId)?.periodName }} -
                 Room: {{ getRoomPeriodById(roomperiodId)?.roomName }}- Date:
-                {{ getRoomPeriodById(roomperiodId)?.day | date }} - Start:
+                {{ getRoomPeriodById(roomperiodId)?.Date | date }} - Start:
                 {{ getRoomPeriodById(roomperiodId)?.timeFrom }}
               </p>
             </option>
@@ -122,7 +122,7 @@
             >
               <p *ngIf="roomPeriod.id != roomperiodId">
                 Period: {{ roomPeriod.periodName }} - Room:
-                {{ roomPeriod.roomName }}- Date: {{ roomPeriod.day | date }} -
+                {{ roomPeriod.roomName }}- Date: {{ roomPeriod.Date | date }} -
                 Start: {{ roomPeriod.timeFrom }}
               </p>
             </option>

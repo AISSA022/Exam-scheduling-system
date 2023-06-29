@@ -7,6 +7,7 @@ import { SetupService } from 'src/app/Services/Setup/setup.service';
 import { CreateRoomComponent } from './CreateRoom/create-room/create-room.component';
 import { DeleteRoomComponent } from './DeleteRoom/delete-room/delete-room.component';
 import { EditRoomComponent } from './EditRoom/edit-room/edit-room.component';
+import { RoomDetailsComponent } from './CreateRoom/create-room/Room-Details/room-details/room-details.component';
 
 @Component({
   selector: 'app-rooms',
@@ -16,7 +17,7 @@ import { EditRoomComponent } from './EditRoom/edit-room/edit-room.component';
 export class RoomsComponent implements OnInit {
 
   //////////////////Table//////////////////
-  displayedColumns: string[] = ['roomId', 'roomName', 'seatNumber', 'columns', "row", "building", 'actions'];
+  displayedColumns: string[] = ['roomId', 'roomName', 'seatNumber', 'columns', "building", 'actions'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -60,6 +61,12 @@ export class RoomsComponent implements OnInit {
   //////////////////////////////////////////////////
   openeditroom(data: any) {
     this.matdialog.open(EditRoomComponent, {
+      data,
+    });
+  }
+  //////////////////////////////////////////////////
+  openRoomDetials(data:any) {
+    this.matdialog.open(RoomDetailsComponent, {
       data,
     });
   }

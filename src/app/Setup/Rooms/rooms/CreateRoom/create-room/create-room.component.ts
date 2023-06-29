@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@a
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SetupService } from 'src/app/Services/Setup/setup.service';
+import { RoomDetailsComponent } from './Room-Details/room-details/room-details.component';
 
 function onlyNumbersValidator(control: FormControl) {
   const regex = /^[0-9]*$/;
@@ -26,7 +27,6 @@ export class CreateRoomComponent implements OnInit {
       roomName: ['', Validators.required],
       seatNumber: ['', [Validators.required, onlyNumbersValidator]],
       columns: ['', [Validators.required, onlyNumbersValidator]],
-      row: ['', [Validators.required, onlyNumbersValidator]],
       building: ['', Validators.required],
     })
   }
@@ -58,6 +58,11 @@ export class CreateRoomComponent implements OnInit {
     this.createRoomForm?.get('columns')?.updateValueAndValidity();
   }
   //////////////////////////////////////////////////////////////////////////////////////
+  openRoomDetials(data: any) {
+    this.matdialog.open(RoomDetailsComponent, {
+      data,
+    });
+  }
   //////////////////////////////////////////////////////////////////////////////////////
 
 }

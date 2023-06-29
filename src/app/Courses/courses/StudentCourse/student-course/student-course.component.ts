@@ -43,12 +43,12 @@ export class StudentCourseComponent implements OnInit {
 
   ngOnInit() {
     this.getStudents()
-
     this.CourseName = this.data.courseName
     this.CourseId = this.data.courseid
     this.semasterId = this.data.selectedSemester
     console.log(this.CourseName)
     console.log(this.data.semesterCourseId)
+    console.log(this.data.semesterIdSelected)
     this.getStudentsId()
   }
 
@@ -92,28 +92,28 @@ export class StudentCourseComponent implements OnInit {
   }
 
   ////////////////////////////////////////////////////////////
-  AddStudentToCourse() {
-    this.SemesterCourseService.AddStudentToCourse(this.selectedStudentIds, this.data.semesterCourseId).subscribe({
-      next: (res) => {
-        console.log(this.selectedStudentIds)
-        this.matdialog.closeAll();
-        this.snackbar.open('Students Added successfully', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-          panelClass: ['my-snackbar']
-        })
-      },
-      error: (err: HttpErrorResponse) => {
-        const message = err.error.errMessage
-        this.snackbar.open(message, 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        })
-      }
-    })
-  }
+  // AddStudentToCourse() {
+  //   this.SemesterCourseService.AddStudentToCourse(this.selectedStudentIds, this.data.semesterCourseId).subscribe({
+  //     next: (res) => {
+
+  //       this.matdialog.closeAll();
+  //       this.snackbar.open('Students Added successfully', 'Close', {
+  //         duration: 3000,
+  //         horizontalPosition: 'center',
+  //         verticalPosition: 'bottom',
+  //         panelClass: ['my-snackbar']
+  //       })
+  //     },
+  //     error: (err: HttpErrorResponse) => {
+  //       const message = err.error.errMessage
+  //       this.snackbar.open(message, 'Close', {
+  //         duration: 3000,
+  //         horizontalPosition: 'center',
+  //         verticalPosition: 'bottom',
+  //       })
+  //     }
+  //   })
+  // }
   ////////////////////////////////////////////////////////////
   getStudentsId() {
     this.SemesterCourseService.getstudentsincourse(this.data.semesterCourseId).subscribe({
@@ -127,5 +127,40 @@ export class StudentCourseComponent implements OnInit {
   /////////////////////////////////////////////
   isStudentSelected(studentId: number): boolean {
     return this.studentIds.includes(studentId);
+  }
+  ////////////////////////////////
+  AddStudentToCourse() {
+    this.studentIds.forEach((r) => {
+      this.Courseservice.StudentCheckconflict(this.data.semesterIdSelected  , this.data.semesterCourseId, r).subscribe({
+        next: (res) => {
+          if (res == 1) {
+            this.snackbar.open('Error Student Time Confilct', 'Close', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              panelClass: ['my-snackbar']
+            })
+          }
+          else {
+            this.matdialog.closeAll();
+            this.snackbar.open('Students Added successfully', 'Close', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              panelClass: ['my-snackbar']
+            })
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          const message = err.error.errMessage
+          this.snackbar.open(message, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          })
+        }
+      })
+
+    });
   }
 }

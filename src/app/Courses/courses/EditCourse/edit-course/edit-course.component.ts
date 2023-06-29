@@ -15,9 +15,10 @@ import { SemesterCourseService } from 'src/app/Services/Semester-Course/semester
 export class EditCourseComponent {
   editCourseForm!: FormGroup;
   id?: number;
-  RoomPeriod: { id: number, periodName: string, roomName: string, day: Date, timeFrom: string }[] = [];
+  RoomPeriod: { id: number, periodName: string, roomName: string, Date: Date, timeFrom: string }[] = [];
   roomid!: number;
   roomperiodId!: number;
+  SemesterCourseId!: number;
   //////////////////constructor//////////////////
   constructor(
     private dialog: MatDialog,
@@ -44,7 +45,7 @@ export class EditCourseComponent {
     if (this.data.data.roomName != null && this.data.data.periodName != null) {
       this.getroomperiodId()
     }
-
+    this.getSemesterCourseId()
   }
 
   ////////////////////updateuser///////////////
@@ -86,25 +87,43 @@ export class EditCourseComponent {
       if (this.roomid == null) {
         window.location.reload();
       }
-      this.SemesterCourseservices.editSemesterCourse(this.data.data.courseId, this.data.semesterIdSelected, this.roomid).subscribe({
+      // console.log(this.data.semesterIdSelected)
+      // console.log(this.SemesterCourseId)
+      this.Courseservices.checkconflict(this.data.semesterIdSelected, this.SemesterCourseId).subscribe({
         next: (res) => {
-          this.dialog.closeAll(),
-            this.snackbar.open('Period Course Details Updated successfully', 'Close', {
+          console.log(res)
+          if (res == 1) {
+            this.snackbar.open('Error Time Confilct', 'Close', {
               duration: 3000,
               horizontalPosition: 'center',
               verticalPosition: 'bottom',
               panelClass: ['my-snackbar']
             })
-          window.location.reload();
-        },
-        error: (err: HttpErrorResponse) => {
+          }
+          else {
+            /////
+            this.SemesterCourseservices.editSemesterCourse(this.data.data.courseId, this.data.semesterIdSelected, this.roomid).subscribe({
+              next: (res) => {
+                this.dialog.closeAll(),
+                  this.snackbar.open('Period Course Details Updated successfully', 'Close', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'bottom',
+                    panelClass: ['my-snackbar']
+                  })
+                window.location.reload();
+              },
+              error: (err: HttpErrorResponse) => {
 
-          this.snackbar.open(err.error.message, 'Close', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            panelClass: ['my-snackbar']
-          })
+                this.snackbar.open(err.error.message, 'Close', {
+                  duration: 3000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'bottom',
+                  panelClass: ['my-snackbar']
+                })
+              }
+            })
+          }
         }
       })
     }
@@ -124,13 +143,13 @@ export class EditCourseComponent {
           periodName: any;
           roomName: any; id: any; day: Date; timeFrom: any;
         }) => ({ id: room.id, periodName: room.periodName, roomName: room.roomName, Date: room.day, timeFrom: room.timeFrom }));
+        console.log(this.RoomPeriod)
       }
     })
   }
   /////////////////////////////////////////////////////
   getid(event: any) {
     this.roomid = event.target.value;
-    console.log(this.roomid)
   }
   //////////////////////////////////////////////////////////////
   getroomperiodId() {
@@ -141,16 +160,24 @@ export class EditCourseComponent {
     })
   }
   ////////////////////////////////////////////////////////////
-  getRoomPeriodById(id: number): { periodName: string, roomName: string, day: Date, timeFrom: string } | undefined {
+  getRoomPeriodById(id: number): { periodName: string, roomName: string, Date: Date, timeFrom: string } | undefined {
     const roomPeriod = this.RoomPeriod.find(room => room.id === id);
     if (roomPeriod) {
       return {
         periodName: roomPeriod.periodName,
         roomName: roomPeriod.roomName,
-        day: roomPeriod.day,
+        Date: roomPeriod.Date,
         timeFrom: roomPeriod.timeFrom
       };
     }
     return undefined;
+  }
+  ///////////////////////////////////////////////////////////////////
+  getSemesterCourseId() {
+    this.Courseservices.GetSemestercourseId(this.data.data.courseId).subscribe({
+      next: (res) => {
+        this.SemesterCourseId = res
+      }
+    })
   }
 }
