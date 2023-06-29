@@ -23,11 +23,15 @@ public partial class ExamAttendanceSystemContext : DbContext
 
     public virtual DbSet<Permission> Permissions { get; set; }
 
+    public virtual DbSet<Report> Reports { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<RolePermission> RolePermissions { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
+
+    public virtual DbSet<RoomDetail> RoomDetails { get; set; }
 
     public virtual DbSet<RoomPeriod> RoomPeriods { get; set; }
 
@@ -39,7 +43,9 @@ public partial class ExamAttendanceSystemContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -97,6 +103,14 @@ public partial class ExamAttendanceSystemContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<Report>(entity =>
+        {
+            entity.ToTable("Report");
+
+            entity.Property(e => e.Description).IsUnicode(false);
+            entity.Property(e => e.Type).IsUnicode(false);
+        });
+
         modelBuilder.Entity<Role>(entity =>
         {
             entity.Property(e => e.RoleName)
@@ -130,9 +144,26 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.ToTable("Room");
 
             entity.Property(e => e.Building).HasColumnType("text");
+            entity.Property(e => e.RoomDetailsId).HasColumnName("RoomDetailsID");
             entity.Property(e => e.RoomName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.RoomDetails).WithMany(p => p.Rooms)
+                .HasForeignKey(d => d.RoomDetailsId)
+                .HasConstraintName("FK_Room_RoomDetails");
+        });
+
+        modelBuilder.Entity<RoomDetail>(entity =>
+        {
+            entity.HasKey(e => e.RoomDetailsId);
+
+            entity.Property(e => e.RoomDetailsId).HasColumnName("RoomDetailsID");
+            entity.Property(e => e.ColumnName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.RoomId).HasColumnName("RoomID");
+            entity.Property(e => e.RowCapacity).HasColumnName("rowCapacity");
         });
 
         modelBuilder.Entity<RoomPeriod>(entity =>

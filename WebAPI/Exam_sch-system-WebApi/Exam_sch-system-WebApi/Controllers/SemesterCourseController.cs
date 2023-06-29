@@ -249,5 +249,19 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return Ok();
         }
+        [HttpGet("GetSemesterCourseId/{courseid}")]
+        public async Task<ActionResult> GetSemesterCourseId(int courseid)
+        {
+
+            var courses = _context.SemesterCourses.FirstOrDefault(sc=>sc.CourseId == courseid);
+            if(courses == null)
+            {
+                return NotFound();
+            }
+
+            var cs = courses.SemesterCourseId;
+
+            return Ok(cs);
+        }
     }
 }

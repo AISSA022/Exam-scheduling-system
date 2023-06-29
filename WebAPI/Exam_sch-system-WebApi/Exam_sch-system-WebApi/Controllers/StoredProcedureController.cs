@@ -119,28 +119,65 @@ namespace Exam_sch_system_WebApi.Controllers
             return RoomPeriodd;
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////
-        [HttpGet("CheckConflict/{semesterid}/{semestercourseid}")]
-        public ActionResult<int> CheckConflict(int semesterid, int semestercourseid)
-        {
-            using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
-            {
-                using (SqlCommand command = new SqlCommand("CheckConflict", connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@semesterid", semesterid);
-                    command.Parameters.AddWithValue("@semestercourseid", semestercourseid);
 
+        [HttpGet("CheckTimeConflict")]
+        public async Task<ActionResult<int>> CheckTimeConflict(int semesterId, int semesterCourseId)
+        {
+            try
+            {
+                int conflictStatus = 0;
+                SqlParameter conflictStatusParameter = new SqlParameter("@ConflictStatus", SqlDbType.Bit);
+                conflictStatusParameter.Direction = ParameterDirection.Output;
+
+                using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
+                {
                     connection.Open();
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand("CheckConflict2", connection))
                     {
-                        var checkConflict = reader.GetInt32(reader.GetOrdinal("ConflictStatus"));
-                        return checkConflict;
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@semesterid", semesterId);
+                        command.Parameters.AddWithValue("@semestercourseid", semesterCourseId);
+                        command.Parameters.Add(conflictStatusParameter);
+
+                        await command.ExecuteNonQueryAsync();
+
+                        conflictStatus = Convert.ToInt32(conflictStatusParameter.Value);
                     }
                 }
+                return Ok(conflictStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////
+
+        [HttpGet("StudentCheckConflict")]
+        public IActionResult StudentCheckConflict(int semesterId, int semesterCourseId, int studentId)
+        {
+            int conflictStatus = 0;
+
+            using (SqlConnection connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;"))
+            {
+                SqlCommand command = new SqlCommand("StudentCheckConflict", connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@semesterid", semesterId);
+                command.Parameters.AddWithValue("@semestercourseid", semesterCourseId);
+                command.Parameters.AddWithValue("@StudentId", studentId);
+                command.Parameters.Add("@ConflictStatus", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                connection.Open();
+                command.ExecuteNonQuery();
+
+                conflictStatus = Convert.ToInt32(command.Parameters["@ConflictStatus"].Value);
             }
 
-            return Ok();
+            return Ok(conflictStatus);
         }
 
     }

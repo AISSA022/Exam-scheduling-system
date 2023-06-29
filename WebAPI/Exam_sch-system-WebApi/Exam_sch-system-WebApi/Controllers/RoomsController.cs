@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Exam_sch_system_WebApi.Models;
+using Exam_sch_system_WebApi.Models.Dto;
 
 namespace Exam_sch_system_WebApi.Controllers
 {
@@ -46,49 +47,96 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return room;
         }
- 
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, [FromBody] Room room)
+
+        /*        [HttpPut("EditRoom")]
+                public IActionResult EditRoom(int roomId, [FromBody] RoomDTO updatedRoom)
+                {
+                    try
+                    {
+                        // Retrieve the existing room from the database
+                        var room = _context.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+
+                        if (room == null)
+                        {
+                            return NotFound(); // Room not found
+                        }
+
+                        // Update the room properties with the new values
+                        room.RoomName = updatedRoom.RoomName;
+                        room.SeatNumber = updatedRoom.SeatNumber;
+                        room.Columns = updatedRoom.Columns;
+                        room.Building = updatedRoom.Building;
+                        // Save changes to the database
+                        _context.SaveChanges();
+
+                        return Ok(); // Room updated successfully
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle any errors that occur during the process
+                        return StatusCode(500, $"An error occurred: {ex.Message}");
+                    }
+                }
+        */
+        [HttpPut("EditRoom")]
+        public IActionResult EditRoom(int roomId, [FromBody] RoomDTO updatedRoom)
         {
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoomExists(id))
+                // Retrieve the existing room from the database
+                var room = _context.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+
+                if (room == null)
                 {
-                    return NotFound();
+                    return NotFound(); // Room not found
+                }
+
+                // Update the room properties with the new values
+                room.RoomName = updatedRoom.RoomName;
+                room.SeatNumber = updatedRoom.SeatNumber;
+                room.Columns = updatedRoom.Columns;
+                room.Building = updatedRoom.Building;
+
+                // If the room has a RoomDetailsId
+                if (room.RoomDetailsId.HasValue)
+                {
+                    // Retrieve the existing room details from the database
+                    var roomDetails = _context.RoomDetails.FirstOrDefault(rd => rd.RoomDetailsId == room.RoomDetailsId);
+
+                    if (roomDetails != null)
+                    {
+                        // Update the room details properties with the new values
+                        roomDetails.ColumnName = updatedRoom.RoomDetails.ColumnName;
+                        roomDetails.RowCapacity = updatedRoom.RoomDetails.RowCapacity;
+                    }
                 }
                 else
                 {
-                    throw;
+                    // Create a new room details object
+                    var roomDetails = new RoomDetail
+                    {
+                        ColumnName = updatedRoom.RoomDetails.ColumnName,
+                        RowCapacity = updatedRoom.RoomDetails.RowCapacity
+                    };
+
+                    // Associate the room details with the room
+                    room.RoomDetails = roomDetails;
                 }
+
+                // Save changes to the database
+                _context.SaveChanges();
+
+                return Ok(); // Room updated successfully
             }
-
-            var roomss = _context.Rooms.FirstOrDefault(u => u.RoomId == id);
-
-            // If the user doesn't exist, return a 404 Not Found
-            if (roomss == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                // Handle any errors that occur during the process
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
-
-            // Update the user's properties with the new values
-            roomss.RoomName = room.RoomName;
-            roomss.SeatNumber = room.SeatNumber;
-            roomss.Columns= room.Columns;
-            roomss.Row = room.Row;
-            roomss.Building=room.Building;
-
-            // Save the changes to the database
-            _context.SaveChanges();
-
-            // Return a 204 No Content response
-            return NoContent();
         }
-        
+
+
         [HttpPost]
         public async Task<ActionResult<Room>> PostRoom(Room room)
         {
