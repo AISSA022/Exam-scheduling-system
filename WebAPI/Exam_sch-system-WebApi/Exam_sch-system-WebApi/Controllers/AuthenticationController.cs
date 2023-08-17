@@ -108,9 +108,7 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             var newrole = new Role
             {
-                RoleId=user.RoleId,
                 RoleName= rolename,
-                UserId= user.Id,
             };
             _context.Roles.Add(newrole);
             _context.SaveChanges();

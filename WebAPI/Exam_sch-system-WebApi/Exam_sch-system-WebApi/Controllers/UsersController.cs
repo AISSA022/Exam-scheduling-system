@@ -114,7 +114,7 @@ namespace Exam_sch_system_WebApi.Controllers
                             return NotFound();
                         }
                         updaterole.RoleId=updatedUser.RoleId;*/
-            var updaterole = _context.Roles.FirstOrDefault(u => u.UserId == id);
+           /* var updaterole = _context.Roles.FirstOrDefault(u => u.UserId == id);
             if (updaterole == null)
             {
                 return NotFound();
@@ -134,7 +134,7 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             updaterole.RoleId = updatedUser.RoleId;
             updaterole.RoleName = rolename;
-            _context.SaveChanges();
+            _context.SaveChanges();*/
             // Save the changes to the database
             _context.SaveChanges();
 
@@ -161,13 +161,7 @@ namespace Exam_sch_system_WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var role=_context.Roles.Where(u=>u.UserId == id).FirstOrDefault();
-            if (role == null)
-            {
-                return NotFound();
-            }
-            _context.Roles.Remove(role);
-            await _context.SaveChangesAsync();
+
             if (_context.Users == null)
             {
                 return NotFound();

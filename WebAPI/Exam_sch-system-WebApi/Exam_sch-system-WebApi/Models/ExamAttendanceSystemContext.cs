@@ -43,9 +43,7 @@ public partial class ExamAttendanceSystemContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=Exam-Attendance-system;Trusted_Connection=True;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -94,7 +92,6 @@ public partial class ExamAttendanceSystemContext : DbContext
         {
             entity.ToTable("Permission");
 
-            entity.Property(e => e.PermissionId).ValueGeneratedNever();
             entity.Property(e => e.GroupName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -116,12 +113,6 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.UserId).HasColumnName("userId");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Roles)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Roles_User");
         });
 
         modelBuilder.Entity<RolePermission>(entity =>
@@ -245,9 +236,14 @@ public partial class ExamAttendanceSystemContext : DbContext
             entity.Property(e => e.RefreshTokenTime).HasColumnType("datetime");
             entity.Property(e => e.ResetPasswordExpiry).HasColumnType("datetime");
             entity.Property(e => e.ResetPasswordToken).IsUnicode(false);
+            entity.Property(e => e.RoleId).HasDefaultValueSql("((1))");
             entity.Property(e => e.Token)
                 .IsUnicode(false)
                 .HasColumnName("token");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("FK_User_Roles");
         });
 
         OnModelCreatingPartial(modelBuilder);

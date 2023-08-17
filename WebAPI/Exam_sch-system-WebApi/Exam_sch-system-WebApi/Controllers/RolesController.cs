@@ -16,7 +16,7 @@ namespace Exam_sch_system_WebApi.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
+/*        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetRole(int id) {
             if (_context.Users == null)
             {
@@ -28,7 +28,7 @@ namespace Exam_sch_system_WebApi.Controllers
                 return NotFound();
             }
             return Ok(user.RoleId);
-        }
+        }*/
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Role>>> GetAllRoles()
         {
@@ -38,7 +38,7 @@ namespace Exam_sch_system_WebApi.Controllers
             }
             return await _context.Roles.ToListAsync();
         }
-        [HttpPut("Edit-Role/{userid}/{roleid}")]
+ /*       [HttpPut("Edit-Role/{userid}/{roleid}")]
         public async Task<ActionResult<User>> EditRole(int userid,int roleid)
         {
             var user = _context.Users.FirstOrDefault(u=>u.Id==userid);
@@ -71,7 +71,7 @@ namespace Exam_sch_system_WebApi.Controllers
             updaterole.RoleName=rolename;
             _context.SaveChanges();
             return Ok();
-        }
+        }*/
         ////////////////////////////////////////////////////////////////
         [HttpGet("get-Permissions/{roleid}")]
         public async Task<ActionResult<IEnumerable<Permission>>> getPermissions(int roleid)
@@ -163,8 +163,45 @@ namespace Exam_sch_system_WebApi.Controllers
 
             return Ok();
         }
+        //////////////////////////////////////////
+        [HttpPost("CreateRole")]
+        public IActionResult CreateRole(string roleName)
+        {
+            var Role = new Role
+            {
+                RoleName=roleName
+            };
+            _context.Roles.Add(Role);
+            _context.SaveChanges();
+            return Ok();
+        }
+        ////////////////////////////////////////////////
+        [HttpDelete("DeleteRole/{roleId}")]
+        public IActionResult DeleteRole(int roleId)
+        {
+            try
+            {
+                var role = _context.Roles.Include(r => r.RolePermissions).FirstOrDefault(r => r.RoleId == roleId);
 
+                if (role == null)
+                {
+                    return NotFound(); 
+                }
 
+                foreach (var permission in role.RolePermissions.ToList())
+                {
+                    _context.RolePermissions.Remove(permission);
+                }
 
+                _context.Roles.Remove(role);
+                _context.SaveChanges();
+
+                return Ok(); 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
     }
 }

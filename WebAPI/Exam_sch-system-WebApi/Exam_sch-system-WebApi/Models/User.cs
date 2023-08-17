@@ -27,7 +27,7 @@ public partial class User
 
     public bool LoggedIn { get; set; }
 
-    public int RoleId { get; set; }
+    public int? RoleId { get; set; }
 
     public string? RefreshToken { get; set; }
 
@@ -39,7 +39,7 @@ public partial class User
 
     public byte[]? Image { get; set; }
 
-    public virtual ICollection<Role> Roles { get; } = new List<Role>();
+    public virtual Role? Role { get; set; }
 
     public virtual ICollection<StudentSemester> StudentSemesters { get; } = new List<StudentSemester>();
 }
